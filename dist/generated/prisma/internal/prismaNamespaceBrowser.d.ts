@@ -1,0 +1,184 @@
+import * as runtime from "@prisma/client/runtime/index-browser";
+export type * from '../models.js';
+export type * from './prismaNamespace.js';
+export declare const Decimal: typeof runtime.Decimal;
+export declare const NullTypes: {
+    DbNull: (new (secret: never) => typeof runtime.DbNull);
+    JsonNull: (new (secret: never) => typeof runtime.JsonNull);
+    AnyNull: (new (secret: never) => typeof runtime.AnyNull);
+};
+export declare const DbNull: import("@prisma/client/runtime/client").DbNullClass;
+export declare const JsonNull: import("@prisma/client/runtime/client").JsonNullClass;
+export declare const AnyNull: import("@prisma/client/runtime/client").AnyNullClass;
+export declare const ModelName: {
+    readonly User: "User";
+    readonly Property: "Property";
+    readonly House: "House";
+    readonly Tenant: "Tenant";
+    readonly Tenancy: "Tenancy";
+    readonly Charge: "Charge";
+    readonly Payment: "Payment";
+    readonly PaymentAllocation: "PaymentAllocation";
+    readonly Attachment: "Attachment";
+    readonly DepositRefund: "DepositRefund";
+    readonly DepositDeduction: "DepositDeduction";
+};
+export type ModelName = (typeof ModelName)[keyof typeof ModelName];
+export declare const TransactionIsolationLevel: {
+    readonly ReadUncommitted: "ReadUncommitted";
+    readonly ReadCommitted: "ReadCommitted";
+    readonly RepeatableRead: "RepeatableRead";
+    readonly Serializable: "Serializable";
+};
+export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel];
+export declare const UserScalarFieldEnum: {
+    readonly id: "id";
+    readonly kindeId: "kindeId";
+    readonly email: "email";
+    readonly name: "name";
+    readonly role: "role";
+    readonly isActive: "isActive";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
+export declare const PropertyScalarFieldEnum: {
+    readonly id: "id";
+    readonly ownerId: "ownerId";
+    readonly name: "name";
+    readonly address: "address";
+    readonly location: "location";
+    readonly description: "description";
+    readonly defaultWaterRate: "defaultWaterRate";
+    readonly currency: "currency";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type PropertyScalarFieldEnum = (typeof PropertyScalarFieldEnum)[keyof typeof PropertyScalarFieldEnum];
+export declare const HouseScalarFieldEnum: {
+    readonly id: "id";
+    readonly propertyId: "propertyId";
+    readonly unitNumber: "unitNumber";
+    readonly houseType: "houseType";
+    readonly waterMeterNumber: "waterMeterNumber";
+    readonly defaultMonthlyRent: "defaultMonthlyRent";
+    readonly defaultDepositAmount: "defaultDepositAmount";
+    readonly status: "status";
+    readonly notes: "notes";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type HouseScalarFieldEnum = (typeof HouseScalarFieldEnum)[keyof typeof HouseScalarFieldEnum];
+export declare const TenantScalarFieldEnum: {
+    readonly id: "id";
+    readonly fullName: "fullName";
+    readonly phone: "phone";
+    readonly altPhone: "altPhone";
+    readonly nationalId: "nationalId";
+    readonly email: "email";
+    readonly occupation: "occupation";
+    readonly emergencyContactName: "emergencyContactName";
+    readonly emergencyContactPhone: "emergencyContactPhone";
+    readonly status: "status";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type TenantScalarFieldEnum = (typeof TenantScalarFieldEnum)[keyof typeof TenantScalarFieldEnum];
+export declare const TenancyScalarFieldEnum: {
+    readonly id: "id";
+    readonly houseId: "houseId";
+    readonly tenantId: "tenantId";
+    readonly monthlyRent: "monthlyRent";
+    readonly depositRequired: "depositRequired";
+    readonly startDate: "startDate";
+    readonly expectedEndDate: "expectedEndDate";
+    readonly openingWaterReading: "openingWaterReading";
+    readonly notes: "notes";
+    readonly noticeDate: "noticeDate";
+    readonly moveOutReason: "moveOutReason";
+    readonly actualEndDate: "actualEndDate";
+    readonly status: "status";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type TenancyScalarFieldEnum = (typeof TenancyScalarFieldEnum)[keyof typeof TenancyScalarFieldEnum];
+export declare const ChargeScalarFieldEnum: {
+    readonly id: "id";
+    readonly tenancyId: "tenancyId";
+    readonly type: "type";
+    readonly periodMonth: "periodMonth";
+    readonly amount: "amount";
+    readonly description: "description";
+    readonly dueDate: "dueDate";
+    readonly voidedAt: "voidedAt";
+    readonly voidReason: "voidReason";
+    readonly createdById: "createdById";
+    readonly createdAt: "createdAt";
+};
+export type ChargeScalarFieldEnum = (typeof ChargeScalarFieldEnum)[keyof typeof ChargeScalarFieldEnum];
+export declare const PaymentScalarFieldEnum: {
+    readonly id: "id";
+    readonly tenancyId: "tenancyId";
+    readonly amount: "amount";
+    readonly paidAt: "paidAt";
+    readonly method: "method";
+    readonly source: "source";
+    readonly reference: "reference";
+    readonly notes: "notes";
+    readonly recordedById: "recordedById";
+    readonly voidedAt: "voidedAt";
+    readonly voidReason: "voidReason";
+    readonly createdAt: "createdAt";
+};
+export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum];
+export declare const PaymentAllocationScalarFieldEnum: {
+    readonly id: "id";
+    readonly paymentId: "paymentId";
+    readonly chargeId: "chargeId";
+    readonly amount: "amount";
+    readonly createdAt: "createdAt";
+};
+export type PaymentAllocationScalarFieldEnum = (typeof PaymentAllocationScalarFieldEnum)[keyof typeof PaymentAllocationScalarFieldEnum];
+export declare const AttachmentScalarFieldEnum: {
+    readonly id: "id";
+    readonly paymentId: "paymentId";
+    readonly url: "url";
+    readonly mimeType: "mimeType";
+    readonly sizeBytes: "sizeBytes";
+    readonly uploadedById: "uploadedById";
+    readonly createdAt: "createdAt";
+};
+export type AttachmentScalarFieldEnum = (typeof AttachmentScalarFieldEnum)[keyof typeof AttachmentScalarFieldEnum];
+export declare const DepositRefundScalarFieldEnum: {
+    readonly id: "id";
+    readonly tenancyId: "tenancyId";
+    readonly depositHeld: "depositHeld";
+    readonly refundAmount: "refundAmount";
+    readonly refundDate: "refundDate";
+    readonly method: "method";
+    readonly notes: "notes";
+    readonly createdAt: "createdAt";
+};
+export type DepositRefundScalarFieldEnum = (typeof DepositRefundScalarFieldEnum)[keyof typeof DepositRefundScalarFieldEnum];
+export declare const DepositDeductionScalarFieldEnum: {
+    readonly id: "id";
+    readonly refundId: "refundId";
+    readonly reason: "reason";
+    readonly amount: "amount";
+};
+export type DepositDeductionScalarFieldEnum = (typeof DepositDeductionScalarFieldEnum)[keyof typeof DepositDeductionScalarFieldEnum];
+export declare const SortOrder: {
+    readonly asc: "asc";
+    readonly desc: "desc";
+};
+export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder];
+export declare const QueryMode: {
+    readonly default: "default";
+    readonly insensitive: "insensitive";
+};
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode];
+export declare const NullsOrder: {
+    readonly first: "first";
+    readonly last: "last";
+};
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder];

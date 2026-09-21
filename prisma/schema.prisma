@@ -1,0 +1,389 @@
+// Rental & Property Management — database schema (MVP: Sprints 1–5)
+//
+// The core idea: we never store "how much a tenant owes." We store
+// CHARGES (what they owe) and PAYMENTS (what came in), and a small
+// join table saying which payment paid off which charge. The balance
+// for any tenant, any month, any type (rent/water/deposit) is always
+// worked out from those three tables — never stored and never stale.
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+
+}
+
+// ─────────────────────────────────────────────────────────────
+// People who log in (owner + staff). Tenants are NOT users —
+// they never log in, so they live in their own table below.
+// ─────────────────────────────────────────────────────────────
+
+enum Role {
+  OWNER
+  STAFF
+  ADMIN
+}
+
+model User {
+  id       String  @id @default(cuid())
+  kindeId  String  @unique // the "sub" claim from the Kinde JWT
+  email    String  @unique
+  name     String?
+  role     Role    @default(OWNER)
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // one owner can hold one property today; the array just means we're
+  // not blocked if a second property/owner is added later.
+  properties       Property[]
+  chargesCreated   Charge[]   @relation("ChargeCreatedBy")
+  paymentsRecorded Payment[]  @relation("PaymentRecordedBy")
+}
+
+// ─────────────────────────────────────────────────────────────
+// The apartment block itself, and its default settings.
+// ─────────────────────────────────────────────────────────────
+
+model Property {
+  id      String @id @default(cuid())
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id])
+
+  name             String @unique
+  address          String
+  location         String?
+  description      String?
+  defaultWaterRate Decimal @default(0) // KSh per unit, used when generating a new water bill
+  currency         String  @default("KES")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  houses House[]
+}
+
+// ─────────────────────────────────────────────────────────────
+// Individual rental units.
+// ─────────────────────────────────────────────────────────────
+
+enum HouseStatus {
+  VACANT
+  OCCUPIED
+  RESERVED
+  NOTICE_GIVEN
+  MAINTENANCE
+  INACTIVE
+}
+
+model House {
+  id         String @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  unitNumber String // "H01"
+  houseType  String? // "Bedsitter", "1BR" etc — free text for now
+  waterMeterNumber String?
+
+  // These are only the ADVERTISED figures for whoever moves in next.
+  // Neither is ever read to work out an existing tenant's rent or
+  // deposit — those are frozen on the Tenancy the moment they move in.
+  defaultMonthlyRent    Decimal
+  defaultDepositAmount  Decimal? // falls back to defaultMonthlyRent if left unset
+
+  status HouseStatus @default(VACANT)
+  notes  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenancies Tenancy[]
+
+  @@unique([propertyId, unitNumber])
+}
+
+// ─────────────────────────────────────────────────────────────
+// The people who rent the houses. Never log in, never a User.
+// ─────────────────────────────────────────────────────────────
+
+enum TenantStatus {
+  ACTIVE
+  FORMER
+}
+
+model Tenant {
+  id String @id @default(cuid())
+
+  fullName              String
+  phone                 String
+  altPhone              String?
+  nationalId            String?
+  email                 String?
+  occupation            String?
+  emergencyContactName  String?
+  emergencyContactPhone String?
+
+  status TenantStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenancies Tenancy[]
+}
+
+// ─────────────────────────────────────────────────────────────
+// One stay by one tenant in one house. This is the record that
+// "freezes" the rent and deposit so later rent changes never
+// touch history. A house's story over time is its list of
+// Tenancies, oldest to newest.
+// ─────────────────────────────────────────────────────────────
+
+enum TenancyStatus {
+  ACTIVE
+  NOTICE_GIVEN
+  VACATED
+}
+
+model Tenancy {
+  id String @id @default(cuid())
+
+  houseId  String
+  house    House  @relation(fields: [houseId], references: [id])
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+  // Copied in at move-in and then left alone. If the owner ever
+  // needs to change rent mid-tenancy, that's a deliberate edit here
+  // — it only affects rent charges generated AFTER the change,
+  // because past charges already have their own amount saved.
+  monthlyRent     Decimal
+  depositRequired Decimal // defaults to monthlyRent in the API, but can be set to an agreed figure
+
+  startDate           DateTime
+  expectedEndDate     DateTime?
+  // Captured once, at move-in — the starting point for water billing once
+  // Sprint 6 builds proper meter-reading history. Not billed against here.
+  openingWaterReading Decimal?
+  notes               String?
+  noticeDate          DateTime?
+  moveOutReason       String?
+  actualEndDate       DateTime?
+
+  status TenancyStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  charges       Charge[]
+  payments      Payment[]
+  depositRefund DepositRefund?
+
+  @@index([houseId, status])
+  // NOTE: "only one ACTIVE tenancy per house" is enforced in application
+  // code today. A follow-up migration should add a partial unique index
+  // (Postgres: UNIQUE (houseId) WHERE status = 'ACTIVE') as a hard safety net.
+}
+
+// ─────────────────────────────────────────────────────────────
+// Something a tenant owes: a month's rent, a water bill, the
+// deposit, or a one-off charge. This is the "expected" side.
+// ─────────────────────────────────────────────────────────────
+
+enum ChargeType {
+  RENT
+  WATER
+  RENTDEPOSIT
+  WATERDEPOSIT
+  TRASH
+  TRASHDEPOSIT
+  SECURITYDEPOSIT
+  SECURITY
+  SERVICEFEE
+  OTHER
+}
+
+model Charge {
+  id String @id @default(cuid())
+
+  tenancyId String
+  tenancy   Tenancy @relation(fields: [tenancyId], references: [id])
+
+  type ChargeType
+
+  // First day of the month this charge is for (e.g. RENT for August).
+  // Left empty for one-off OTHER charges. This field is what lets us
+  // answer "what does this tenant owe for August" without a separate table.
+  periodMonth DateTime?
+
+  amount      Decimal
+  description String?
+  dueDate     DateTime?
+
+  // Charges are never deleted — a mistaken charge is voided with a reason
+  // and stays visible, so the history is never silently rewritten.
+  voidedAt   DateTime?
+  voidReason String?
+
+  createdById String
+  createdBy   User   @relation("ChargeCreatedBy", fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+
+  allocations PaymentAllocation[]
+
+  // Stops the same month's rent (or water bill) being generated twice.
+  // NULL periodMonth (OTHER charges) is exempt — Postgres treats NULLs
+  // as distinct, so one-off charges are never blocked by this.
+  @@unique([tenancyId, type, periodMonth])
+  @@index([tenancyId, periodMonth])
+}
+
+// ─────────────────────────────────────────────────────────────
+// Money that actually came in. This is the "actual" side.
+// ─────────────────────────────────────────────────────────────
+
+enum PaymentMethod {
+  MPESA
+  BANK
+  CASH
+  OTHER
+}
+
+// How the payment reached the system. Everything today is MANUAL —
+// the owner typing it in. The other values don't get used yet, but
+// having the field means an M-Pesa/bank integration later just writes
+// into this same table instead of needing a new one.
+enum PaymentSource {
+  MANUAL
+  MPESA_AUTO
+  BANK_AUTO
+}
+
+model Payment {
+  id String @id @default(cuid())
+
+  tenancyId String
+  tenancy   Tenancy @relation(fields: [tenancyId], references: [id])
+
+  amount Decimal
+  paidAt DateTime
+
+  // No "type" here on purpose: a single payment (one lump of cash/M-Pesa)
+  // can settle a mix of deposit, rent and a utility bill in one go. What
+  // it actually paid for is entirely described by its PaymentAllocation
+  // rows — each pointing at one Charge, which has its own type. See the
+  // allocation cascade below.
+
+  method    PaymentMethod
+  source    PaymentSource @default(MANUAL)
+  reference String? // e.g. M-Pesa code — checked for duplicates in the service layer
+  notes     String?
+
+  recordedById String
+  recordedBy   User   @relation("PaymentRecordedBy", fields: [recordedById], references: [id])
+
+  // Reversed, never deleted, so the trail always shows what happened.
+  voidedAt   DateTime?
+  voidReason String?
+
+  createdAt DateTime @default(now())
+
+  allocations PaymentAllocation[]
+  attachments Attachment[]
+
+  @@index([tenancyId])
+  @@index([reference])
+}
+
+// ─────────────────────────────────────────────────────────────
+// The link: how much of this payment went to that charge.
+// A payment can be split across several charges — even charges of
+// different types (e.g. one payment finishes off the deposit, then
+// clears July's rent, then puts a dent in August's rent).
+// A charge can be paid off by several payments over time.
+//
+// AUTO-ALLOCATION ORDER (service layer, not the database):
+// when money isn't manually pointed at specific charges, it is applied
+// to a tenancy's outstanding charges in this order, oldest first within
+// each group, until the money runs out:
+//   1. DEPOSIT   (always settled first — the owner's explicit rule)
+//   2. RENT      (oldest unpaid month first; a 3-month prepayment
+//                 walks forward through however many month charges exist)
+//   3. WATER     (oldest unpaid bill first)
+//   4. OTHER     (oldest due date first — trash, etc.)
+// Any amount left over once every outstanding charge is cleared is
+// simply unallocated credit (payment.amount − sum of its allocations).
+// It isn't parked in a new table — the same allocation routine runs
+// again, against this tenancy's leftover credit, every time a NEW
+// charge is created (next month's rent job, a fresh water bill, an
+// ad-hoc trash charge), so a prepayment quietly catches up automatically.
+// ─────────────────────────────────────────────────────────────
+
+model PaymentAllocation {
+  id String @id @default(cuid())
+
+  paymentId String
+  payment   Payment @relation(fields: [paymentId], references: [id])
+  chargeId  String
+  charge    Charge  @relation(fields: [chargeId], references: [id])
+
+  amount    Decimal
+  createdAt DateTime @default(now())
+
+  @@unique([paymentId, chargeId])
+}
+
+// ─────────────────────────────────────────────────────────────
+// Proof of payment — the M-Pesa screenshot or bank slip.
+// ─────────────────────────────────────────────────────────────
+
+model Attachment {
+  id String @id @default(cuid())
+
+  paymentId String
+  payment   Payment @relation(fields: [paymentId], references: [id])
+
+  url          String // Cloudinary URL
+  mimeType     String
+  sizeBytes    Int?
+  uploadedById String
+
+  createdAt DateTime @default(now())
+}
+
+// ─────────────────────────────────────────────────────────────
+// Move-out: what happened to the deposit. Kept separate from
+// Charge/Payment because it's a one-time settlement, not an
+// ongoing balance.
+// ─────────────────────────────────────────────────────────────
+
+model DepositRefund {
+  id String @id @default(cuid())
+
+  tenancyId String  @unique
+  tenancy   Tenancy @relation(fields: [tenancyId], references: [id])
+
+  depositHeld   Decimal // what was actually paid in, from the Charge/Payment records
+  refundAmount  Decimal
+  refundDate    DateTime?
+  method        PaymentMethod?
+  notes         String?
+
+  createdAt DateTime @default(now())
+
+  deductions DepositDeduction[]
+}
+
+model DepositDeduction {
+  id String @id @default(cuid())
+
+  refundId String
+  refund   DepositRefund @relation(fields: [refundId], references: [id])
+
+  reason String
+  amount Decimal
+}

@@ -1,0 +1,15 @@
+import * as Prisma from './internal/prismaNamespaceBrowser.js';
+export { Prisma };
+export * as $Enums from './enums.js';
+export * from './enums.js';
+export type User = Prisma.UserModel;
+export type Property = Prisma.PropertyModel;
+export type House = Prisma.HouseModel;
+export type Tenant = Prisma.TenantModel;
+export type Tenancy = Prisma.TenancyModel;
+export type Charge = Prisma.ChargeModel;
+export type Payment = Prisma.PaymentModel;
+export type PaymentAllocation = Prisma.PaymentAllocationModel;
+export type Attachment = Prisma.AttachmentModel;
+export type DepositRefund = Prisma.DepositRefundModel;
+export type DepositDeduction = Prisma.DepositDeductionModel;

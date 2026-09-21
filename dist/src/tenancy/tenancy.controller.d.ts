@@ -1,0 +1,75 @@
+import { TenancyService } from './tenancy.service';
+import { MoveInDTO } from "../validators/tenancy.validator";
+export declare class TenancyController {
+    private readonly tenancyService;
+    constructor(tenancyService: TenancyService);
+    moveIn(data: MoveInDTO, req: any): Promise<{
+        id: string;
+        houseId: string;
+        tenantId: string;
+        monthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
+        depositRequired: import("@prisma/client/runtime/index-browser").Decimal;
+        startDate: Date;
+        expectedEndDate: Date | null;
+        openingWaterReading: import("@prisma/client/runtime/index-browser").Decimal | null;
+        notes: string | null;
+        noticeDate: Date | null;
+        moveOutReason: string | null;
+        actualEndDate: Date | null;
+        status: import("src/types/tenancy").TenancyStatus;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+    getTenancyById(id: string): Promise<{
+        id: string;
+        houseId: string;
+        tenantId: string;
+        monthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
+        depositRequired: import("@prisma/client/runtime/index-browser").Decimal;
+        startDate: Date;
+        expectedEndDate: Date | null;
+        openingWaterReading: import("@prisma/client/runtime/index-browser").Decimal | null;
+        notes: string | null;
+        noticeDate: Date | null;
+        moveOutReason: string | null;
+        actualEndDate: Date | null;
+        status: import("src/types/tenancy").TenancyStatus;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+    getTenancyHistoryForHouse(houseId: string): Promise<{
+        id: string;
+        houseId: string;
+        tenantId: string;
+        monthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
+        depositRequired: import("@prisma/client/runtime/index-browser").Decimal;
+        startDate: Date;
+        expectedEndDate: Date | null;
+        openingWaterReading: import("@prisma/client/runtime/index-browser").Decimal | null;
+        notes: string | null;
+        noticeDate: Date | null;
+        moveOutReason: string | null;
+        actualEndDate: Date | null;
+        status: import("src/types/tenancy").TenancyStatus;
+        createdAt: Date;
+        updatedAt: Date;
+    }[]>;
+    getActiveTenancyForHouse(houseId: string): Promise<{
+        id: string;
+        houseId: string;
+        tenantId: string;
+        monthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
+        depositRequired: import("@prisma/client/runtime/index-browser").Decimal;
+        startDate: Date;
+        expectedEndDate: Date | null;
+        openingWaterReading: import("@prisma/client/runtime/index-browser").Decimal | null;
+        notes: string | null;
+        noticeDate: Date | null;
+        moveOutReason: string | null;
+        actualEndDate: Date | null;
+        status: import("src/types/tenancy").TenancyStatus;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+    private rethrowOrWrap;
+}
