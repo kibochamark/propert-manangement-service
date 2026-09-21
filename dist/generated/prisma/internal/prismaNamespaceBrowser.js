@@ -139,6 +139,7 @@ exports.ChargeScalarFieldEnum = {
     dueDate: 'dueDate',
     voidedAt: 'voidedAt',
     voidReason: 'voidReason',
+    voidedById: 'voidedById',
     createdById: 'createdById',
     createdAt: 'createdAt'
 };
@@ -154,6 +155,7 @@ exports.PaymentScalarFieldEnum = {
     recordedById: 'recordedById',
     voidedAt: 'voidedAt',
     voidReason: 'voidReason',
+    voidedById: 'voidedById',
     createdAt: 'createdAt'
 };
 exports.PaymentAllocationScalarFieldEnum = {

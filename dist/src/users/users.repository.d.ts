@@ -5,24 +5,24 @@ export declare class UsersRepository {
     private logger;
     constructor(prisma: PrismaService);
     findById(id: string): Promise<{
-        id: string;
-        kindeId: string;
-        email: string;
         name: string | null;
-        role: Role;
-        isActive: boolean;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
+        kindeId: string;
+        email: string;
+        role: Role;
+        isActive: boolean;
     } | null>;
     findByEmail(email: string): Promise<{
-        id: string;
-        kindeId: string;
-        email: string;
         name: string | null;
-        role: Role;
-        isActive: boolean;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
+        kindeId: string;
+        email: string;
+        role: Role;
+        isActive: boolean;
     } | null>;
     createUser(data: {
         name: string;
@@ -30,44 +30,44 @@ export declare class UsersRepository {
         kindeId: string;
         role?: Role;
     }): Promise<{
-        id: string;
-        kindeId: string;
-        email: string;
         name: string | null;
-        role: Role;
-        isActive: boolean;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
+        kindeId: string;
+        email: string;
+        role: Role;
+        isActive: boolean;
     }>;
     findUserByKindeId(kindeId: string): Promise<{
-        id: string;
-        kindeId: string;
-        email: string;
         name: string | null;
-        role: Role;
-        isActive: boolean;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
+        kindeId: string;
+        email: string;
+        role: Role;
+        isActive: boolean;
     } | null>;
     findAll(): Promise<{
-        id: string;
-        kindeId: string;
-        email: string;
         name: string | null;
-        role: Role;
-        isActive: boolean;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
+        kindeId: string;
+        email: string;
+        role: Role;
+        isActive: boolean;
     }[]>;
     deleteUser(id: string): Promise<{
-        id: string;
-        kindeId: string;
-        email: string;
         name: string | null;
-        role: Role;
-        isActive: boolean;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
+        kindeId: string;
+        email: string;
+        role: Role;
+        isActive: boolean;
     }>;
     updateUser(id: string, data: {
         name?: string;
@@ -75,13 +75,13 @@ export declare class UsersRepository {
         kindeId?: string;
         role?: Role;
     }): Promise<{
-        id: string;
-        kindeId: string;
-        email: string;
         name: string | null;
-        role: Role;
-        isActive: boolean;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
+        kindeId: string;
+        email: string;
+        role: Role;
+        isActive: boolean;
     }>;
 }

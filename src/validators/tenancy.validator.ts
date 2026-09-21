@@ -1,29 +1,14 @@
-import { Type } from 'class-transformer';
-import {
-  IsDateString,
-  IsNumber,
-  IsOptional,
-  IsPositive,
-  IsString,
-  ValidateIf,
-  ValidateNested,
-} from 'class-validator';
-import { TenantControllerDTO } from './tenant.validator';
+import { IsDateString, IsNumber, IsOptional, IsPositive, IsString } from 'class-validator';
 
 export class MoveInDTO {
   @IsString()
   houseId: string;
 
+  // The tenant must already exist — create one via POST /tenants first.
+  // Prisma only needs the id to link the relation; move-in isn't a second
+  // way to create a tenant.
   @IsString()
-  @IsOptional()
-  tenantId?: string;
-
-  // Required only when no existing tenantId is given — a move-in either
-  // reuses a known tenant or creates one on the spot, never both.
-  @ValidateIf((o: MoveInDTO) => !o.tenantId)
-  @ValidateNested()
-  @Type(() => TenantControllerDTO)
-  tenant?: TenantControllerDTO;
+  tenantId: string;
 
   @IsNumber()
   @IsPositive()

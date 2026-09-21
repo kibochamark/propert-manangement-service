@@ -1,8 +1,7 @@
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prismaservice/prismaservice.service';
 import { TenancyRepository } from './tenancy.repository';
 import { MoveInInput, Tenancy } from 'src/types/tenancy';
-import { Prisma } from 'generated/prisma/client';
 
 @Injectable()
 export class TenancyService {
@@ -44,11 +43,15 @@ export class TenancyService {
       const existingActive = await tx.tenancy.findFirst({
         where: { houseId: input.houseId, status: 'ACTIVE' },
       });
+      console.log(existingActive)
       if (existingActive) {
         throw new ConflictException(`House ${input.houseId} already has an active tenant`);
       }
 
-      const tenantId = await this.resolveTenant(tx, input);
+      const tenant = await tx.tenant.findUnique({ where: { id: input.tenantId } });
+      if (!tenant) {
+        throw new NotFoundException(`Tenant ${input.tenantId} not found`);
+      }
 
       // Same idea, the other direction: a person can't be the active
       // tenant of two houses at once in a one-property system. Scenario:
@@ -57,7 +60,7 @@ export class TenancyService {
       // while H03 still thinks he's active, which would otherwise make
       // his rent history ambiguous (which house does his payment belong to?).
       const tenantAlreadyActive = await tx.tenancy.findFirst({
-        where: { tenantId, status: 'ACTIVE' },
+        where: { tenantId: input.tenantId, status: 'ACTIVE' },
       });
       if (tenantAlreadyActive) {
         throw new ConflictException('This tenant already has an active tenancy elsewhere');
@@ -66,7 +69,7 @@ export class TenancyService {
       const tenancy = await tx.tenancy.create({
         data: {
           houseId: input.houseId,
-          tenantId,
+          tenantId: input.tenantId,
           monthlyRent: input.monthlyRent,
           depositRequired,
           startDate: input.startDate,
@@ -124,26 +127,5 @@ export class TenancyService {
 
   async getActiveTenancyForHouse(houseId: string): Promise<Tenancy | null> {
     return this.tenancyRepository.findActiveByHouse(houseId);
-  }
-
-  // Either reuse an existing tenant (tenantId given) or create one inline
-  // — never both. The DTO's @ValidateIf already enforces this at the HTTP
-  // boundary, but the service checks again rather than trusting its
-  // caller blindly (this method could be called from elsewhere later).
-  private async resolveTenant(tx: Prisma.TransactionClient, input: MoveInInput): Promise<string> {
-    if (input.tenantId) {
-      const tenant = await tx.tenant.findUnique({ where: { id: input.tenantId } });
-      if (!tenant) {
-        throw new NotFoundException(`Tenant ${input.tenantId} not found`);
-      }
-      return tenant.id;
-    }
-
-    if (!input.tenant) {
-      throw new BadRequestException('Provide either an existing tenantId or new tenant details');
-    }
-
-    const tenant = await tx.tenant.create({ data: input.tenant });
-    return tenant.id;
   }
 }

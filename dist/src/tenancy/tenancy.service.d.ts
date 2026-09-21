@@ -9,5 +9,4 @@ export declare class TenancyService {
     getTenancyById(id: string): Promise<Tenancy>;
     getTenancyHistoryForHouse(houseId: string): Promise<Tenancy[]>;
     getActiveTenancyForHouse(houseId: string): Promise<Tenancy | null>;
-    private resolveTenant;
 }

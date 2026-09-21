@@ -43,7 +43,9 @@ model User {
   // not blocked if a second property/owner is added later.
   properties       Property[]
   chargesCreated   Charge[]   @relation("ChargeCreatedBy")
+  chargesVoided    Charge[]   @relation("ChargeVoidedBy")
   paymentsRecorded Payment[]  @relation("PaymentRecordedBy")
+  paymentsVoided   Payment[]  @relation("PaymentVoidedBy")
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -228,6 +230,8 @@ model Charge {
   // and stays visible, so the history is never silently rewritten.
   voidedAt   DateTime?
   voidReason String?
+  voidedById String?
+  voidedBy   User?     @relation("ChargeVoidedBy", fields: [voidedById], references: [id])
 
   createdById String
   createdBy   User   @relation("ChargeCreatedBy", fields: [createdById], references: [id])
@@ -289,6 +293,8 @@ model Payment {
   // Reversed, never deleted, so the trail always shows what happened.
   voidedAt   DateTime?
   voidReason String?
+  voidedById String?
+  voidedBy   User?     @relation("PaymentVoidedBy", fields: [voidedById], references: [id])
 
   createdAt DateTime @default(now())
 

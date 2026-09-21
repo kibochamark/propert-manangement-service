@@ -123,7 +123,9 @@ export type UserWhereInput = {
     updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string;
     properties?: Prisma.PropertyListRelationFilter;
     chargesCreated?: Prisma.ChargeListRelationFilter;
+    chargesVoided?: Prisma.ChargeListRelationFilter;
     paymentsRecorded?: Prisma.PaymentListRelationFilter;
+    paymentsVoided?: Prisma.PaymentListRelationFilter;
 };
 export type UserOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
@@ -136,7 +138,9 @@ export type UserOrderByWithRelationInput = {
     updatedAt?: Prisma.SortOrder;
     properties?: Prisma.PropertyOrderByRelationAggregateInput;
     chargesCreated?: Prisma.ChargeOrderByRelationAggregateInput;
+    chargesVoided?: Prisma.ChargeOrderByRelationAggregateInput;
     paymentsRecorded?: Prisma.PaymentOrderByRelationAggregateInput;
+    paymentsVoided?: Prisma.PaymentOrderByRelationAggregateInput;
 };
 export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string;
@@ -152,7 +156,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
     updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string;
     properties?: Prisma.PropertyListRelationFilter;
     chargesCreated?: Prisma.ChargeListRelationFilter;
+    chargesVoided?: Prisma.ChargeListRelationFilter;
     paymentsRecorded?: Prisma.PaymentListRelationFilter;
+    paymentsVoided?: Prisma.PaymentListRelationFilter;
 }, "id" | "kindeId" | "email">;
 export type UserOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
@@ -191,7 +197,9 @@ export type UserCreateInput = {
     updatedAt?: Date | string;
     properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput;
     chargesCreated?: Prisma.ChargeCreateNestedManyWithoutCreatedByInput;
+    chargesVoided?: Prisma.ChargeCreateNestedManyWithoutVoidedByInput;
     paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput;
+    paymentsVoided?: Prisma.PaymentCreateNestedManyWithoutVoidedByInput;
 };
 export type UserUncheckedCreateInput = {
     id?: string;
@@ -204,7 +212,9 @@ export type UserUncheckedCreateInput = {
     updatedAt?: Date | string;
     properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput;
     chargesCreated?: Prisma.ChargeUncheckedCreateNestedManyWithoutCreatedByInput;
+    chargesVoided?: Prisma.ChargeUncheckedCreateNestedManyWithoutVoidedByInput;
     paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput;
+    paymentsVoided?: Prisma.PaymentUncheckedCreateNestedManyWithoutVoidedByInput;
 };
 export type UserUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -217,7 +227,9 @@ export type UserUpdateInput = {
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput;
     chargesCreated?: Prisma.ChargeUpdateManyWithoutCreatedByNestedInput;
+    chargesVoided?: Prisma.ChargeUpdateManyWithoutVoidedByNestedInput;
     paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput;
+    paymentsVoided?: Prisma.PaymentUpdateManyWithoutVoidedByNestedInput;
 };
 export type UserUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -230,7 +242,9 @@ export type UserUncheckedUpdateInput = {
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput;
     chargesCreated?: Prisma.ChargeUncheckedUpdateManyWithoutCreatedByNestedInput;
+    chargesVoided?: Prisma.ChargeUncheckedUpdateManyWithoutVoidedByNestedInput;
     paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput;
+    paymentsVoided?: Prisma.PaymentUncheckedUpdateManyWithoutVoidedByNestedInput;
 };
 export type UserCreateManyInput = {
     id?: string;
@@ -296,6 +310,10 @@ export type UserScalarRelationFilter = {
     is?: Prisma.UserWhereInput;
     isNot?: Prisma.UserWhereInput;
 };
+export type UserNullableScalarRelationFilter = {
+    is?: Prisma.UserWhereInput | null;
+    isNot?: Prisma.UserWhereInput | null;
+};
 export type StringFieldUpdateOperationsInput = {
     set?: string;
 };
@@ -323,10 +341,24 @@ export type UserUpdateOneRequiredWithoutPropertiesNestedInput = {
     connect?: Prisma.UserWhereUniqueInput;
     update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPropertiesInput, Prisma.UserUpdateWithoutPropertiesInput>, Prisma.UserUncheckedUpdateWithoutPropertiesInput>;
 };
+export type UserCreateNestedOneWithoutChargesVoidedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutChargesVoidedInput, Prisma.UserUncheckedCreateWithoutChargesVoidedInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutChargesVoidedInput;
+    connect?: Prisma.UserWhereUniqueInput;
+};
 export type UserCreateNestedOneWithoutChargesCreatedInput = {
     create?: Prisma.XOR<Prisma.UserCreateWithoutChargesCreatedInput, Prisma.UserUncheckedCreateWithoutChargesCreatedInput>;
     connectOrCreate?: Prisma.UserCreateOrConnectWithoutChargesCreatedInput;
     connect?: Prisma.UserWhereUniqueInput;
+};
+export type UserUpdateOneWithoutChargesVoidedNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutChargesVoidedInput, Prisma.UserUncheckedCreateWithoutChargesVoidedInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutChargesVoidedInput;
+    upsert?: Prisma.UserUpsertWithoutChargesVoidedInput;
+    disconnect?: Prisma.UserWhereInput | boolean;
+    delete?: Prisma.UserWhereInput | boolean;
+    connect?: Prisma.UserWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChargesVoidedInput, Prisma.UserUpdateWithoutChargesVoidedInput>, Prisma.UserUncheckedUpdateWithoutChargesVoidedInput>;
 };
 export type UserUpdateOneRequiredWithoutChargesCreatedNestedInput = {
     create?: Prisma.XOR<Prisma.UserCreateWithoutChargesCreatedInput, Prisma.UserUncheckedCreateWithoutChargesCreatedInput>;
@@ -340,12 +372,26 @@ export type UserCreateNestedOneWithoutPaymentsRecordedInput = {
     connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentsRecordedInput;
     connect?: Prisma.UserWhereUniqueInput;
 };
+export type UserCreateNestedOneWithoutPaymentsVoidedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutPaymentsVoidedInput, Prisma.UserUncheckedCreateWithoutPaymentsVoidedInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentsVoidedInput;
+    connect?: Prisma.UserWhereUniqueInput;
+};
 export type UserUpdateOneRequiredWithoutPaymentsRecordedNestedInput = {
     create?: Prisma.XOR<Prisma.UserCreateWithoutPaymentsRecordedInput, Prisma.UserUncheckedCreateWithoutPaymentsRecordedInput>;
     connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentsRecordedInput;
     upsert?: Prisma.UserUpsertWithoutPaymentsRecordedInput;
     connect?: Prisma.UserWhereUniqueInput;
     update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPaymentsRecordedInput, Prisma.UserUpdateWithoutPaymentsRecordedInput>, Prisma.UserUncheckedUpdateWithoutPaymentsRecordedInput>;
+};
+export type UserUpdateOneWithoutPaymentsVoidedNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutPaymentsVoidedInput, Prisma.UserUncheckedCreateWithoutPaymentsVoidedInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutPaymentsVoidedInput;
+    upsert?: Prisma.UserUpsertWithoutPaymentsVoidedInput;
+    disconnect?: Prisma.UserWhereInput | boolean;
+    delete?: Prisma.UserWhereInput | boolean;
+    connect?: Prisma.UserWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPaymentsVoidedInput, Prisma.UserUpdateWithoutPaymentsVoidedInput>, Prisma.UserUncheckedUpdateWithoutPaymentsVoidedInput>;
 };
 export type UserCreateWithoutPropertiesInput = {
     id?: string;
@@ -357,7 +403,9 @@ export type UserCreateWithoutPropertiesInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     chargesCreated?: Prisma.ChargeCreateNestedManyWithoutCreatedByInput;
+    chargesVoided?: Prisma.ChargeCreateNestedManyWithoutVoidedByInput;
     paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput;
+    paymentsVoided?: Prisma.PaymentCreateNestedManyWithoutVoidedByInput;
 };
 export type UserUncheckedCreateWithoutPropertiesInput = {
     id?: string;
@@ -369,7 +417,9 @@ export type UserUncheckedCreateWithoutPropertiesInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     chargesCreated?: Prisma.ChargeUncheckedCreateNestedManyWithoutCreatedByInput;
+    chargesVoided?: Prisma.ChargeUncheckedCreateNestedManyWithoutVoidedByInput;
     paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput;
+    paymentsVoided?: Prisma.PaymentUncheckedCreateNestedManyWithoutVoidedByInput;
 };
 export type UserCreateOrConnectWithoutPropertiesInput = {
     where: Prisma.UserWhereUniqueInput;
@@ -394,7 +444,9 @@ export type UserUpdateWithoutPropertiesInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     chargesCreated?: Prisma.ChargeUpdateManyWithoutCreatedByNestedInput;
+    chargesVoided?: Prisma.ChargeUpdateManyWithoutVoidedByNestedInput;
     paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput;
+    paymentsVoided?: Prisma.PaymentUpdateManyWithoutVoidedByNestedInput;
 };
 export type UserUncheckedUpdateWithoutPropertiesInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -406,7 +458,41 @@ export type UserUncheckedUpdateWithoutPropertiesInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     chargesCreated?: Prisma.ChargeUncheckedUpdateManyWithoutCreatedByNestedInput;
+    chargesVoided?: Prisma.ChargeUncheckedUpdateManyWithoutVoidedByNestedInput;
     paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput;
+    paymentsVoided?: Prisma.PaymentUncheckedUpdateManyWithoutVoidedByNestedInput;
+};
+export type UserCreateWithoutChargesVoidedInput = {
+    id?: string;
+    kindeId: string;
+    email: string;
+    name?: string | null;
+    role?: $Enums.Role;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput;
+    chargesCreated?: Prisma.ChargeCreateNestedManyWithoutCreatedByInput;
+    paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput;
+    paymentsVoided?: Prisma.PaymentCreateNestedManyWithoutVoidedByInput;
+};
+export type UserUncheckedCreateWithoutChargesVoidedInput = {
+    id?: string;
+    kindeId: string;
+    email: string;
+    name?: string | null;
+    role?: $Enums.Role;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput;
+    chargesCreated?: Prisma.ChargeUncheckedCreateNestedManyWithoutCreatedByInput;
+    paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput;
+    paymentsVoided?: Prisma.PaymentUncheckedCreateNestedManyWithoutVoidedByInput;
+};
+export type UserCreateOrConnectWithoutChargesVoidedInput = {
+    where: Prisma.UserWhereUniqueInput;
+    create: Prisma.XOR<Prisma.UserCreateWithoutChargesVoidedInput, Prisma.UserUncheckedCreateWithoutChargesVoidedInput>;
 };
 export type UserCreateWithoutChargesCreatedInput = {
     id?: string;
@@ -418,7 +504,9 @@ export type UserCreateWithoutChargesCreatedInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput;
+    chargesVoided?: Prisma.ChargeCreateNestedManyWithoutVoidedByInput;
     paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput;
+    paymentsVoided?: Prisma.PaymentCreateNestedManyWithoutVoidedByInput;
 };
 export type UserUncheckedCreateWithoutChargesCreatedInput = {
     id?: string;
@@ -430,11 +518,50 @@ export type UserUncheckedCreateWithoutChargesCreatedInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput;
+    chargesVoided?: Prisma.ChargeUncheckedCreateNestedManyWithoutVoidedByInput;
     paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput;
+    paymentsVoided?: Prisma.PaymentUncheckedCreateNestedManyWithoutVoidedByInput;
 };
 export type UserCreateOrConnectWithoutChargesCreatedInput = {
     where: Prisma.UserWhereUniqueInput;
     create: Prisma.XOR<Prisma.UserCreateWithoutChargesCreatedInput, Prisma.UserUncheckedCreateWithoutChargesCreatedInput>;
+};
+export type UserUpsertWithoutChargesVoidedInput = {
+    update: Prisma.XOR<Prisma.UserUpdateWithoutChargesVoidedInput, Prisma.UserUncheckedUpdateWithoutChargesVoidedInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutChargesVoidedInput, Prisma.UserUncheckedCreateWithoutChargesVoidedInput>;
+    where?: Prisma.UserWhereInput;
+};
+export type UserUpdateToOneWithWhereWithoutChargesVoidedInput = {
+    where?: Prisma.UserWhereInput;
+    data: Prisma.XOR<Prisma.UserUpdateWithoutChargesVoidedInput, Prisma.UserUncheckedUpdateWithoutChargesVoidedInput>;
+};
+export type UserUpdateWithoutChargesVoidedInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    kindeId?: Prisma.StringFieldUpdateOperationsInput | string;
+    email?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput;
+    chargesCreated?: Prisma.ChargeUpdateManyWithoutCreatedByNestedInput;
+    paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput;
+    paymentsVoided?: Prisma.PaymentUpdateManyWithoutVoidedByNestedInput;
+};
+export type UserUncheckedUpdateWithoutChargesVoidedInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    kindeId?: Prisma.StringFieldUpdateOperationsInput | string;
+    email?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput;
+    chargesCreated?: Prisma.ChargeUncheckedUpdateManyWithoutCreatedByNestedInput;
+    paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput;
+    paymentsVoided?: Prisma.PaymentUncheckedUpdateManyWithoutVoidedByNestedInput;
 };
 export type UserUpsertWithoutChargesCreatedInput = {
     update: Prisma.XOR<Prisma.UserUpdateWithoutChargesCreatedInput, Prisma.UserUncheckedUpdateWithoutChargesCreatedInput>;
@@ -455,7 +582,9 @@ export type UserUpdateWithoutChargesCreatedInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput;
+    chargesVoided?: Prisma.ChargeUpdateManyWithoutVoidedByNestedInput;
     paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput;
+    paymentsVoided?: Prisma.PaymentUpdateManyWithoutVoidedByNestedInput;
 };
 export type UserUncheckedUpdateWithoutChargesCreatedInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -467,7 +596,9 @@ export type UserUncheckedUpdateWithoutChargesCreatedInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput;
+    chargesVoided?: Prisma.ChargeUncheckedUpdateManyWithoutVoidedByNestedInput;
     paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput;
+    paymentsVoided?: Prisma.PaymentUncheckedUpdateManyWithoutVoidedByNestedInput;
 };
 export type UserCreateWithoutPaymentsRecordedInput = {
     id?: string;
@@ -480,6 +611,8 @@ export type UserCreateWithoutPaymentsRecordedInput = {
     updatedAt?: Date | string;
     properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput;
     chargesCreated?: Prisma.ChargeCreateNestedManyWithoutCreatedByInput;
+    chargesVoided?: Prisma.ChargeCreateNestedManyWithoutVoidedByInput;
+    paymentsVoided?: Prisma.PaymentCreateNestedManyWithoutVoidedByInput;
 };
 export type UserUncheckedCreateWithoutPaymentsRecordedInput = {
     id?: string;
@@ -492,10 +625,44 @@ export type UserUncheckedCreateWithoutPaymentsRecordedInput = {
     updatedAt?: Date | string;
     properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput;
     chargesCreated?: Prisma.ChargeUncheckedCreateNestedManyWithoutCreatedByInput;
+    chargesVoided?: Prisma.ChargeUncheckedCreateNestedManyWithoutVoidedByInput;
+    paymentsVoided?: Prisma.PaymentUncheckedCreateNestedManyWithoutVoidedByInput;
 };
 export type UserCreateOrConnectWithoutPaymentsRecordedInput = {
     where: Prisma.UserWhereUniqueInput;
     create: Prisma.XOR<Prisma.UserCreateWithoutPaymentsRecordedInput, Prisma.UserUncheckedCreateWithoutPaymentsRecordedInput>;
+};
+export type UserCreateWithoutPaymentsVoidedInput = {
+    id?: string;
+    kindeId: string;
+    email: string;
+    name?: string | null;
+    role?: $Enums.Role;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput;
+    chargesCreated?: Prisma.ChargeCreateNestedManyWithoutCreatedByInput;
+    chargesVoided?: Prisma.ChargeCreateNestedManyWithoutVoidedByInput;
+    paymentsRecorded?: Prisma.PaymentCreateNestedManyWithoutRecordedByInput;
+};
+export type UserUncheckedCreateWithoutPaymentsVoidedInput = {
+    id?: string;
+    kindeId: string;
+    email: string;
+    name?: string | null;
+    role?: $Enums.Role;
+    isActive?: boolean;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput;
+    chargesCreated?: Prisma.ChargeUncheckedCreateNestedManyWithoutCreatedByInput;
+    chargesVoided?: Prisma.ChargeUncheckedCreateNestedManyWithoutVoidedByInput;
+    paymentsRecorded?: Prisma.PaymentUncheckedCreateNestedManyWithoutRecordedByInput;
+};
+export type UserCreateOrConnectWithoutPaymentsVoidedInput = {
+    where: Prisma.UserWhereUniqueInput;
+    create: Prisma.XOR<Prisma.UserCreateWithoutPaymentsVoidedInput, Prisma.UserUncheckedCreateWithoutPaymentsVoidedInput>;
 };
 export type UserUpsertWithoutPaymentsRecordedInput = {
     update: Prisma.XOR<Prisma.UserUpdateWithoutPaymentsRecordedInput, Prisma.UserUncheckedUpdateWithoutPaymentsRecordedInput>;
@@ -517,6 +684,8 @@ export type UserUpdateWithoutPaymentsRecordedInput = {
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput;
     chargesCreated?: Prisma.ChargeUpdateManyWithoutCreatedByNestedInput;
+    chargesVoided?: Prisma.ChargeUpdateManyWithoutVoidedByNestedInput;
+    paymentsVoided?: Prisma.PaymentUpdateManyWithoutVoidedByNestedInput;
 };
 export type UserUncheckedUpdateWithoutPaymentsRecordedInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -529,16 +698,59 @@ export type UserUncheckedUpdateWithoutPaymentsRecordedInput = {
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput;
     chargesCreated?: Prisma.ChargeUncheckedUpdateManyWithoutCreatedByNestedInput;
+    chargesVoided?: Prisma.ChargeUncheckedUpdateManyWithoutVoidedByNestedInput;
+    paymentsVoided?: Prisma.PaymentUncheckedUpdateManyWithoutVoidedByNestedInput;
+};
+export type UserUpsertWithoutPaymentsVoidedInput = {
+    update: Prisma.XOR<Prisma.UserUpdateWithoutPaymentsVoidedInput, Prisma.UserUncheckedUpdateWithoutPaymentsVoidedInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutPaymentsVoidedInput, Prisma.UserUncheckedCreateWithoutPaymentsVoidedInput>;
+    where?: Prisma.UserWhereInput;
+};
+export type UserUpdateToOneWithWhereWithoutPaymentsVoidedInput = {
+    where?: Prisma.UserWhereInput;
+    data: Prisma.XOR<Prisma.UserUpdateWithoutPaymentsVoidedInput, Prisma.UserUncheckedUpdateWithoutPaymentsVoidedInput>;
+};
+export type UserUpdateWithoutPaymentsVoidedInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    kindeId?: Prisma.StringFieldUpdateOperationsInput | string;
+    email?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput;
+    chargesCreated?: Prisma.ChargeUpdateManyWithoutCreatedByNestedInput;
+    chargesVoided?: Prisma.ChargeUpdateManyWithoutVoidedByNestedInput;
+    paymentsRecorded?: Prisma.PaymentUpdateManyWithoutRecordedByNestedInput;
+};
+export type UserUncheckedUpdateWithoutPaymentsVoidedInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    kindeId?: Prisma.StringFieldUpdateOperationsInput | string;
+    email?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput;
+    chargesCreated?: Prisma.ChargeUncheckedUpdateManyWithoutCreatedByNestedInput;
+    chargesVoided?: Prisma.ChargeUncheckedUpdateManyWithoutVoidedByNestedInput;
+    paymentsRecorded?: Prisma.PaymentUncheckedUpdateManyWithoutRecordedByNestedInput;
 };
 export type UserCountOutputType = {
     properties: number;
     chargesCreated: number;
+    chargesVoided: number;
     paymentsRecorded: number;
+    paymentsVoided: number;
 };
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     properties?: boolean | UserCountOutputTypeCountPropertiesArgs;
     chargesCreated?: boolean | UserCountOutputTypeCountChargesCreatedArgs;
+    chargesVoided?: boolean | UserCountOutputTypeCountChargesVoidedArgs;
     paymentsRecorded?: boolean | UserCountOutputTypeCountPaymentsRecordedArgs;
+    paymentsVoided?: boolean | UserCountOutputTypeCountPaymentsVoidedArgs;
 };
 export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     select?: Prisma.UserCountOutputTypeSelect<ExtArgs> | null;
@@ -549,7 +761,13 @@ export type UserCountOutputTypeCountPropertiesArgs<ExtArgs extends runtime.Types
 export type UserCountOutputTypeCountChargesCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     where?: Prisma.ChargeWhereInput;
 };
+export type UserCountOutputTypeCountChargesVoidedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.ChargeWhereInput;
+};
 export type UserCountOutputTypeCountPaymentsRecordedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.PaymentWhereInput;
+};
+export type UserCountOutputTypeCountPaymentsVoidedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     where?: Prisma.PaymentWhereInput;
 };
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -563,7 +781,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
     updatedAt?: boolean;
     properties?: boolean | Prisma.User$propertiesArgs<ExtArgs>;
     chargesCreated?: boolean | Prisma.User$chargesCreatedArgs<ExtArgs>;
+    chargesVoided?: boolean | Prisma.User$chargesVoidedArgs<ExtArgs>;
     paymentsRecorded?: boolean | Prisma.User$paymentsRecordedArgs<ExtArgs>;
+    paymentsVoided?: boolean | Prisma.User$paymentsVoidedArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["user"]>;
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -600,7 +820,9 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     properties?: boolean | Prisma.User$propertiesArgs<ExtArgs>;
     chargesCreated?: boolean | Prisma.User$chargesCreatedArgs<ExtArgs>;
+    chargesVoided?: boolean | Prisma.User$chargesVoidedArgs<ExtArgs>;
     paymentsRecorded?: boolean | Prisma.User$paymentsRecordedArgs<ExtArgs>;
+    paymentsVoided?: boolean | Prisma.User$paymentsVoidedArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {};
@@ -610,7 +832,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     objects: {
         properties: Prisma.$PropertyPayload<ExtArgs>[];
         chargesCreated: Prisma.$ChargePayload<ExtArgs>[];
+        chargesVoided: Prisma.$ChargePayload<ExtArgs>[];
         paymentsRecorded: Prisma.$PaymentPayload<ExtArgs>[];
+        paymentsVoided: Prisma.$PaymentPayload<ExtArgs>[];
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
@@ -675,7 +899,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
     readonly [Symbol.toStringTag]: "PrismaPromise";
     properties<T extends Prisma.User$propertiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$propertiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PropertyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     chargesCreated<T extends Prisma.User$chargesCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chargesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChargePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    chargesVoided<T extends Prisma.User$chargesVoidedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chargesVoidedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChargePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     paymentsRecorded<T extends Prisma.User$paymentsRecordedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paymentsRecordedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    paymentsVoided<T extends Prisma.User$paymentsVoidedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paymentsVoidedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): runtime.Types.Utils.JsPromise<TResult1 | TResult2>;
     catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): runtime.Types.Utils.JsPromise<T | TResult>;
     finally(onfinally?: (() => void) | undefined | null): runtime.Types.Utils.JsPromise<T>;
@@ -810,7 +1036,29 @@ export type User$chargesCreatedArgs<ExtArgs extends runtime.Types.Extensions.Int
     skip?: number;
     distinct?: Prisma.ChargeScalarFieldEnum | Prisma.ChargeScalarFieldEnum[];
 };
+export type User$chargesVoidedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.ChargeSelect<ExtArgs> | null;
+    omit?: Prisma.ChargeOmit<ExtArgs> | null;
+    include?: Prisma.ChargeInclude<ExtArgs> | null;
+    where?: Prisma.ChargeWhereInput;
+    orderBy?: Prisma.ChargeOrderByWithRelationInput | Prisma.ChargeOrderByWithRelationInput[];
+    cursor?: Prisma.ChargeWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.ChargeScalarFieldEnum | Prisma.ChargeScalarFieldEnum[];
+};
 export type User$paymentsRecordedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.PaymentSelect<ExtArgs> | null;
+    omit?: Prisma.PaymentOmit<ExtArgs> | null;
+    include?: Prisma.PaymentInclude<ExtArgs> | null;
+    where?: Prisma.PaymentWhereInput;
+    orderBy?: Prisma.PaymentOrderByWithRelationInput | Prisma.PaymentOrderByWithRelationInput[];
+    cursor?: Prisma.PaymentWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.PaymentScalarFieldEnum | Prisma.PaymentScalarFieldEnum[];
+};
+export type User$paymentsVoidedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     select?: Prisma.PaymentSelect<ExtArgs> | null;
     omit?: Prisma.PaymentOmit<ExtArgs> | null;
     include?: Prisma.PaymentInclude<ExtArgs> | null;

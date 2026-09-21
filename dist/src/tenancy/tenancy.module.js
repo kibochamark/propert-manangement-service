@@ -11,11 +11,13 @@ const common_1 = require("@nestjs/common");
 const tenancy_service_1 = require("./tenancy.service");
 const tenancy_repository_1 = require("./tenancy.repository");
 const tenancy_controller_1 = require("./tenancy.controller");
+const balance_module_1 = require("../balance/balance.module");
 let TenancyModule = class TenancyModule {
 };
 exports.TenancyModule = TenancyModule;
 exports.TenancyModule = TenancyModule = __decorate([
     (0, common_1.Module)({
+        imports: [balance_module_1.BalanceModule],
         providers: [tenancy_service_1.TenancyService, tenancy_repository_1.TenancyRepository],
         controllers: [tenancy_controller_1.TenancyController],
         exports: [tenancy_service_1.TenancyService],

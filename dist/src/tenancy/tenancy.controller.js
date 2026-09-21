@@ -15,19 +15,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TenancyController = void 0;
 const common_1 = require("@nestjs/common");
 const tenancy_service_1 = require("./tenancy.service");
+const balance_service_1 = require("../balance/balance.service");
 const tenancy_validator_1 = require("../validators/tenancy.validator");
 const auth_guard_1 = require("../guards/auth.guard");
 let TenancyController = class TenancyController {
     tenancyService;
-    constructor(tenancyService) {
+    balanceService;
+    constructor(tenancyService, balanceService) {
         this.tenancyService = tenancyService;
+        this.balanceService = balanceService;
     }
     async moveIn(data, req) {
         try {
             const input = {
                 houseId: data.houseId,
                 tenantId: data.tenantId,
-                tenant: data.tenant,
                 monthlyRent: data.monthlyRent,
                 depositRequired: data.depositRequired,
                 startDate: new Date(data.startDate),
@@ -38,6 +40,7 @@ let TenancyController = class TenancyController {
             return await this.tenancyService.moveIn(input, req.user.id);
         }
         catch (error) {
+            console.log(error.message);
             this.rethrowOrWrap(error, 'Failed to move in tenant');
         }
     }
@@ -67,6 +70,15 @@ let TenancyController = class TenancyController {
         }
         catch (error) {
             this.rethrowOrWrap(error, 'Failed to fetch active tenancy');
+        }
+    }
+    async getTenancyBalance(id) {
+        try {
+            await this.tenancyService.getTenancyById(id);
+            return await this.balanceService.getTenancyBalance(id);
+        }
+        catch (error) {
+            this.rethrowOrWrap(error, 'Failed to fetch tenancy balance');
         }
     }
     rethrowOrWrap(error, message) {
@@ -110,9 +122,18 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], TenancyController.prototype, "getActiveTenancyForHouse", null);
+__decorate([
+    (0, common_1.Get)('tenancy/:id/balance'),
+    (0, common_1.Version)('1'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], TenancyController.prototype, "getTenancyBalance", null);
 exports.TenancyController = TenancyController = __decorate([
     (0, common_1.Controller)('tenancies'),
     (0, common_1.UseGuards)(auth_guard_1.KindeAuthGuard),
-    __metadata("design:paramtypes", [tenancy_service_1.TenancyService])
+    __metadata("design:paramtypes", [tenancy_service_1.TenancyService,
+        balance_service_1.BalanceService])
 ], TenancyController);
 //# sourceMappingURL=tenancy.controller.js.map

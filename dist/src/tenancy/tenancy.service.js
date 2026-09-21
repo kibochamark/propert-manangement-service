@@ -30,12 +30,16 @@ let TenancyService = class TenancyService {
             const existingActive = await tx.tenancy.findFirst({
                 where: { houseId: input.houseId, status: 'ACTIVE' },
             });
+            console.log(existingActive);
             if (existingActive) {
                 throw new common_1.ConflictException(`House ${input.houseId} already has an active tenant`);
             }
-            const tenantId = await this.resolveTenant(tx, input);
+            const tenant = await tx.tenant.findUnique({ where: { id: input.tenantId } });
+            if (!tenant) {
+                throw new common_1.NotFoundException(`Tenant ${input.tenantId} not found`);
+            }
             const tenantAlreadyActive = await tx.tenancy.findFirst({
-                where: { tenantId, status: 'ACTIVE' },
+                where: { tenantId: input.tenantId, status: 'ACTIVE' },
             });
             if (tenantAlreadyActive) {
                 throw new common_1.ConflictException('This tenant already has an active tenancy elsewhere');
@@ -43,7 +47,7 @@ let TenancyService = class TenancyService {
             const tenancy = await tx.tenancy.create({
                 data: {
                     houseId: input.houseId,
-                    tenantId,
+                    tenantId: input.tenantId,
                     monthlyRent: input.monthlyRent,
                     depositRequired,
                     startDate: input.startDate,
@@ -81,20 +85,6 @@ let TenancyService = class TenancyService {
     }
     async getActiveTenancyForHouse(houseId) {
         return this.tenancyRepository.findActiveByHouse(houseId);
-    }
-    async resolveTenant(tx, input) {
-        if (input.tenantId) {
-            const tenant = await tx.tenant.findUnique({ where: { id: input.tenantId } });
-            if (!tenant) {
-                throw new common_1.NotFoundException(`Tenant ${input.tenantId} not found`);
-            }
-            return tenant.id;
-        }
-        if (!input.tenant) {
-            throw new common_1.BadRequestException('Provide either an existing tenantId or new tenant details');
-        }
-        const tenant = await tx.tenant.create({ data: input.tenant });
-        return tenant.id;
     }
 };
 exports.TenancyService = TenancyService;

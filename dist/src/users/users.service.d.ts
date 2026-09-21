@@ -4,67 +4,67 @@ export declare class UsersService {
     private readonly usersRepository;
     constructor(usersRepository: UsersRepository);
     getUserById(id: string): Promise<{
-        id: string;
-        kindeId: string;
-        email: string;
         name: string | null;
-        role: import("../../generated/prisma/enums").Role;
-        isActive: boolean;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
+        kindeId: string;
+        email: string;
+        role: import("../../generated/prisma/enums").Role;
+        isActive: boolean;
     } | null>;
     createUser(data: {
         name: string;
         email: string;
         kindeId: string;
     }): Promise<{
-        id: string;
-        kindeId: string;
-        email: string;
         name: string | null;
-        role: import("../../generated/prisma/enums").Role;
-        isActive: boolean;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
+        kindeId: string;
+        email: string;
+        role: import("../../generated/prisma/enums").Role;
+        isActive: boolean;
     }>;
     updateUser(id: string, data: Partial<UsersDTO>): Promise<{
-        id: string;
-        kindeId: string;
-        email: string;
         name: string | null;
-        role: import("../../generated/prisma/enums").Role;
-        isActive: boolean;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
+        kindeId: string;
+        email: string;
+        role: import("../../generated/prisma/enums").Role;
+        isActive: boolean;
     }>;
     deleteUser(id: string): Promise<{
-        id: string;
-        kindeId: string;
-        email: string;
         name: string | null;
-        role: import("../../generated/prisma/enums").Role;
-        isActive: boolean;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
+        kindeId: string;
+        email: string;
+        role: import("../../generated/prisma/enums").Role;
+        isActive: boolean;
     }>;
     findUserByKindeId(kindeId: string): Promise<{
-        id: string;
-        kindeId: string;
-        email: string;
         name: string | null;
-        role: import("../../generated/prisma/enums").Role;
-        isActive: boolean;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
+        kindeId: string;
+        email: string;
+        role: import("../../generated/prisma/enums").Role;
+        isActive: boolean;
     } | null>;
     getAllUsers(): Promise<{
-        id: string;
-        kindeId: string;
-        email: string;
         name: string | null;
-        role: import("../../generated/prisma/enums").Role;
-        isActive: boolean;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
+        kindeId: string;
+        email: string;
+        role: import("../../generated/prisma/enums").Role;
+        isActive: boolean;
     }[]>;
 }

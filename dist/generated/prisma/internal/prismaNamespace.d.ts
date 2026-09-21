@@ -1113,6 +1113,7 @@ export declare const ChargeScalarFieldEnum: {
     readonly dueDate: "dueDate";
     readonly voidedAt: "voidedAt";
     readonly voidReason: "voidReason";
+    readonly voidedById: "voidedById";
     readonly createdById: "createdById";
     readonly createdAt: "createdAt";
 };
@@ -1129,6 +1130,7 @@ export declare const PaymentScalarFieldEnum: {
     readonly recordedById: "recordedById";
     readonly voidedAt: "voidedAt";
     readonly voidReason: "voidReason";
+    readonly voidedById: "voidedById";
     readonly createdAt: "createdAt";
 };
 export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum];

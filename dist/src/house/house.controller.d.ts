@@ -10,12 +10,12 @@ export declare class HouseController {
         updatedAt: Date;
         propertyId: string;
         unitNumber: string;
+        defaultMonthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
         houseType: string | null;
         waterMeterNumber: string | null;
-        defaultMonthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
         defaultDepositAmount: import("@prisma/client/runtime/index-browser").Decimal | null;
-        status: HouseStatus;
         notes: string | null;
+        status: HouseStatus;
     }>;
     getAllHouses(propertyId?: string, status?: HouseStatus): Promise<{
         id: string;
@@ -23,12 +23,12 @@ export declare class HouseController {
         updatedAt: Date;
         propertyId: string;
         unitNumber: string;
+        defaultMonthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
         houseType: string | null;
         waterMeterNumber: string | null;
-        defaultMonthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
         defaultDepositAmount: import("@prisma/client/runtime/index-browser").Decimal | null;
-        status: HouseStatus;
         notes: string | null;
+        status: HouseStatus;
     }[]>;
     getHousesByProperty(propertyId: string): Promise<{
         id: string;
@@ -36,12 +36,12 @@ export declare class HouseController {
         updatedAt: Date;
         propertyId: string;
         unitNumber: string;
+        defaultMonthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
         houseType: string | null;
         waterMeterNumber: string | null;
-        defaultMonthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
         defaultDepositAmount: import("@prisma/client/runtime/index-browser").Decimal | null;
-        status: HouseStatus;
         notes: string | null;
+        status: HouseStatus;
     }[]>;
     getHouseById(id: string): Promise<{
         id: string;
@@ -49,12 +49,12 @@ export declare class HouseController {
         updatedAt: Date;
         propertyId: string;
         unitNumber: string;
+        defaultMonthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
         houseType: string | null;
         waterMeterNumber: string | null;
-        defaultMonthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
         defaultDepositAmount: import("@prisma/client/runtime/index-browser").Decimal | null;
-        status: HouseStatus;
         notes: string | null;
+        status: HouseStatus;
     }>;
     updateHouse(id: string, data: UpdateHouseDTO): Promise<{
         id: string;
@@ -62,12 +62,12 @@ export declare class HouseController {
         updatedAt: Date;
         propertyId: string;
         unitNumber: string;
+        defaultMonthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
         houseType: string | null;
         waterMeterNumber: string | null;
-        defaultMonthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
         defaultDepositAmount: import("@prisma/client/runtime/index-browser").Decimal | null;
-        status: HouseStatus;
         notes: string | null;
+        status: HouseStatus;
     }>;
     changeHouseStatus(id: string, data: UpdateHouseStatusDTO): Promise<{
         id: string;
@@ -75,12 +75,12 @@ export declare class HouseController {
         updatedAt: Date;
         propertyId: string;
         unitNumber: string;
+        defaultMonthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
         houseType: string | null;
         waterMeterNumber: string | null;
-        defaultMonthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
         defaultDepositAmount: import("@prisma/client/runtime/index-browser").Decimal | null;
-        status: HouseStatus;
         notes: string | null;
+        status: HouseStatus;
     }>;
     deleteHouse(id: string): Promise<{
         id: string;
@@ -88,12 +88,12 @@ export declare class HouseController {
         updatedAt: Date;
         propertyId: string;
         unitNumber: string;
+        defaultMonthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
         houseType: string | null;
         waterMeterNumber: string | null;
-        defaultMonthlyRent: import("@prisma/client/runtime/index-browser").Decimal;
         defaultDepositAmount: import("@prisma/client/runtime/index-browser").Decimal | null;
-        status: HouseStatus;
         notes: string | null;
+        status: HouseStatus;
     }>;
     private rethrowOrWrap;
 }

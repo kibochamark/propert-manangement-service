@@ -1,5 +1,6 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Req, UseGuards, Version } from '@nestjs/common';
 import { TenancyService } from './tenancy.service';
+import { BalanceService } from 'src/balance/balance.service';
 import { MoveInDTO } from 'src/validators/tenancy.validator';
 import { MoveInInput } from 'src/types/tenancy';
 import { KindeAuthGuard } from 'src/guards/auth.guard';
@@ -7,7 +8,10 @@ import { KindeAuthGuard } from 'src/guards/auth.guard';
 @Controller('tenancies')
 @UseGuards(KindeAuthGuard)
 export class TenancyController {
-  constructor(private readonly tenancyService: TenancyService) {}
+  constructor(
+    private readonly tenancyService: TenancyService,
+    private readonly balanceService: BalanceService,
+  ) {}
 
   // 2.2 — the one-step move-in.
   @Post('move-in')
@@ -17,7 +21,6 @@ export class TenancyController {
       const input: MoveInInput = {
         houseId: data.houseId,
         tenantId: data.tenantId,
-        tenant: data.tenant,
         monthlyRent: data.monthlyRent,
         depositRequired: data.depositRequired,
         startDate: new Date(data.startDate),
@@ -26,7 +29,8 @@ export class TenancyController {
         notes: data.notes,
       };
       return await this.tenancyService.moveIn(input, req.user.id);
-    } catch (error) {
+    } catch (error:any) {
+      console.log(error.message)
       this.rethrowOrWrap(error, 'Failed to move in tenant');
     }
   }
@@ -63,6 +67,19 @@ export class TenancyController {
       return tenancy;
     } catch (error) {
       this.rethrowOrWrap(error, 'Failed to fetch active tenancy');
+    }
+  }
+
+  // The answer to "has this tenant cleared out" — rent, deposit, water,
+  // trash, everything, in one place. See BalanceService for how it's derived.
+  @Get('tenancy/:id/balance')
+  @Version('1')
+  async getTenancyBalance(@Param('id') id: string) {
+    try {
+      await this.tenancyService.getTenancyById(id); // 404s if the tenancy doesn't exist
+      return await this.balanceService.getTenancyBalance(id);
+    } catch (error) {
+      this.rethrowOrWrap(error, 'Failed to fetch tenancy balance');
     }
   }
 

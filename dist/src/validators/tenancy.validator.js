@@ -10,13 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MoveInDTO = void 0;
-const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
-const tenant_validator_1 = require("./tenant.validator");
 class MoveInDTO {
     houseId;
     tenantId;
-    tenant;
     monthlyRent;
     depositRequired;
     startDate;
@@ -31,15 +28,8 @@ __decorate([
 ], MoveInDTO.prototype, "houseId", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], MoveInDTO.prototype, "tenantId", void 0);
-__decorate([
-    (0, class_validator_1.ValidateIf)((o) => !o.tenantId),
-    (0, class_validator_1.ValidateNested)(),
-    (0, class_transformer_1.Type)(() => tenant_validator_1.TenantControllerDTO),
-    __metadata("design:type", tenant_validator_1.TenantControllerDTO)
-], MoveInDTO.prototype, "tenant", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsPositive)(),

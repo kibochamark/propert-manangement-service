@@ -1,8 +1,10 @@
 import { TenancyService } from './tenancy.service';
+import { BalanceService } from "../balance/balance.service";
 import { MoveInDTO } from "../validators/tenancy.validator";
 export declare class TenancyController {
     private readonly tenancyService;
-    constructor(tenancyService: TenancyService);
+    private readonly balanceService;
+    constructor(tenancyService: TenancyService, balanceService: BalanceService);
     moveIn(data: MoveInDTO, req: any): Promise<{
         id: string;
         houseId: string;
@@ -71,5 +73,6 @@ export declare class TenancyController {
         createdAt: Date;
         updatedAt: Date;
     }>;
+    getTenancyBalance(id: string): Promise<import("../types/balance").TenancyBalance>;
     private rethrowOrWrap;
 }

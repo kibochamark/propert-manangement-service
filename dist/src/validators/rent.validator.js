@@ -9,37 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsersDTO = void 0;
+exports.GenerateRentDTO = void 0;
 const class_validator_1 = require("class-validator");
-class UsersDTO {
-    name;
-    email;
-    kindeId;
-    role;
-    isActive;
+class GenerateRentDTO {
+    month;
 }
-exports.UsersDTO = UsersDTO;
+exports.GenerateRentDTO = GenerateRentDTO;
 __decorate([
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], UsersDTO.prototype, "name", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsEmail)(),
-    __metadata("design:type", String)
-], UsersDTO.prototype, "email", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], UsersDTO.prototype, "kindeId", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsDateString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], UsersDTO.prototype, "role", void 0);
-__decorate([
-    (0, class_validator_1.IsBoolean)(),
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", Boolean)
-], UsersDTO.prototype, "isActive", void 0);
-//# sourceMappingURL=user.validtor.js.map
+], GenerateRentDTO.prototype, "month", void 0);
+//# sourceMappingURL=rent.validator.js.map
