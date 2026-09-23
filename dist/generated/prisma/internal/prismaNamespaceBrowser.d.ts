@@ -61,6 +61,7 @@ export declare const HouseScalarFieldEnum: {
     readonly unitNumber: "unitNumber";
     readonly houseType: "houseType";
     readonly waterMeterNumber: "waterMeterNumber";
+    readonly metadata: "metadata";
     readonly defaultMonthlyRent: "defaultMonthlyRent";
     readonly defaultDepositAmount: "defaultDepositAmount";
     readonly status: "status";
@@ -174,6 +175,11 @@ export declare const SortOrder: {
     readonly desc: "desc";
 };
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder];
+export declare const NullableJsonNullValueInput: {
+    readonly DbNull: import("@prisma/client/runtime/client").DbNullClass;
+    readonly JsonNull: import("@prisma/client/runtime/client").JsonNullClass;
+};
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput];
 export declare const QueryMode: {
     readonly default: "default";
     readonly insensitive: "insensitive";
@@ -184,3 +190,9 @@ export declare const NullsOrder: {
     readonly last: "last";
 };
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder];
+export declare const JsonNullValueFilter: {
+    readonly DbNull: import("@prisma/client/runtime/client").DbNullClass;
+    readonly JsonNull: import("@prisma/client/runtime/client").JsonNullClass;
+    readonly AnyNull: import("@prisma/client/runtime/client").AnyNullClass;
+};
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter];

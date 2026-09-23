@@ -19,7 +19,7 @@ import { HouseStatus } from 'generated/prisma/enums';
 import { KindeAuthGuard } from 'src/guards/auth.guard';
 
 @Controller('houses')
-@UseGuards(KindeAuthGuard) // Apply the KindeAuthGuard to protect all routes in this controller
+// @UseGuards(KindeAuthGuard) // Apply the KindeAuthGuard to protect all routes in this controller
 export class HouseController {
   constructor(private readonly houseService: HouseService) {}
 
@@ -27,7 +27,9 @@ export class HouseController {
   @Version('1')
   async createHouse(@Body() data: HouseControllerDTO) {
     try {
+      console.log(data, "create house")
       const input: CreateHouseInput = { ...data };
+      // return input
       return await this.houseService.createHouse(input);
     } catch (error) {
       this.rethrowOrWrap(error, 'Failed to create house');

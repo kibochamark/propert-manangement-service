@@ -91,6 +91,7 @@ model House {
   unitNumber String // "H01"
   houseType  String? // "Bedsitter", "1BR" etc — free text for now
   waterMeterNumber String?
+  metadata Json?
 
   // These are only the ADVERTISED figures for whoever moves in next.
   // Neither is ever read to work out an existing tenant's rent or

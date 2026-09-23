@@ -4,6 +4,7 @@ export declare class HouseControllerDTO {
     unitNumber: string;
     houseType?: string;
     waterMeterNumber?: string;
+    metadata?: JSON;
     defaultMonthlyRent: number;
     defaultDepositAmount?: number;
     notes?: string;

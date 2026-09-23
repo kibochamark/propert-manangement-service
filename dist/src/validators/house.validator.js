@@ -18,6 +18,7 @@ class HouseControllerDTO {
     unitNumber;
     houseType;
     waterMeterNumber;
+    metadata;
     defaultMonthlyRent;
     defaultDepositAmount;
     notes;
@@ -41,6 +42,11 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], HouseControllerDTO.prototype, "waterMeterNumber", void 0);
+__decorate([
+    (0, class_validator_1.IsJSON)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Object)
+], HouseControllerDTO.prototype, "metadata", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsPositive)(),

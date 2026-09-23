@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NullsOrder = exports.QueryMode = exports.SortOrder = exports.DepositDeductionScalarFieldEnum = exports.DepositRefundScalarFieldEnum = exports.AttachmentScalarFieldEnum = exports.PaymentAllocationScalarFieldEnum = exports.PaymentScalarFieldEnum = exports.ChargeScalarFieldEnum = exports.TenancyScalarFieldEnum = exports.TenantScalarFieldEnum = exports.HouseScalarFieldEnum = exports.PropertyScalarFieldEnum = exports.UserScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.Decimal = void 0;
+exports.JsonNullValueFilter = exports.NullsOrder = exports.QueryMode = exports.NullableJsonNullValueInput = exports.SortOrder = exports.DepositDeductionScalarFieldEnum = exports.DepositRefundScalarFieldEnum = exports.AttachmentScalarFieldEnum = exports.PaymentAllocationScalarFieldEnum = exports.PaymentScalarFieldEnum = exports.ChargeScalarFieldEnum = exports.TenancyScalarFieldEnum = exports.TenantScalarFieldEnum = exports.HouseScalarFieldEnum = exports.PropertyScalarFieldEnum = exports.UserScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.Decimal = void 0;
 const runtime = __importStar(require("@prisma/client/runtime/index-browser"));
 exports.Decimal = runtime.Decimal;
 exports.NullTypes = {
@@ -91,6 +91,7 @@ exports.HouseScalarFieldEnum = {
     unitNumber: 'unitNumber',
     houseType: 'houseType',
     waterMeterNumber: 'waterMeterNumber',
+    metadata: 'metadata',
     defaultMonthlyRent: 'defaultMonthlyRent',
     defaultDepositAmount: 'defaultDepositAmount',
     status: 'status',
@@ -194,6 +195,10 @@ exports.SortOrder = {
     asc: 'asc',
     desc: 'desc'
 };
+exports.NullableJsonNullValueInput = {
+    DbNull: exports.DbNull,
+    JsonNull: exports.JsonNull
+};
 exports.QueryMode = {
     default: 'default',
     insensitive: 'insensitive'
@@ -201,5 +206,10 @@ exports.QueryMode = {
 exports.NullsOrder = {
     first: 'first',
     last: 'last'
+};
+exports.JsonNullValueFilter = {
+    DbNull: exports.DbNull,
+    JsonNull: exports.JsonNull,
+    AnyNull: exports.AnyNull
 };
 //# sourceMappingURL=prismaNamespaceBrowser.js.map

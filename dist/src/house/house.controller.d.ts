@@ -15,6 +15,7 @@ export declare class HouseController {
         waterMeterNumber: string | null;
         defaultDepositAmount: import("@prisma/client/runtime/index-browser").Decimal | null;
         notes: string | null;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
         status: HouseStatus;
     }>;
     getAllHouses(propertyId?: string, status?: HouseStatus): Promise<{
@@ -28,6 +29,7 @@ export declare class HouseController {
         waterMeterNumber: string | null;
         defaultDepositAmount: import("@prisma/client/runtime/index-browser").Decimal | null;
         notes: string | null;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
         status: HouseStatus;
     }[]>;
     getHousesByProperty(propertyId: string): Promise<{
@@ -41,6 +43,7 @@ export declare class HouseController {
         waterMeterNumber: string | null;
         defaultDepositAmount: import("@prisma/client/runtime/index-browser").Decimal | null;
         notes: string | null;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
         status: HouseStatus;
     }[]>;
     getHouseById(id: string): Promise<{
@@ -54,6 +57,7 @@ export declare class HouseController {
         waterMeterNumber: string | null;
         defaultDepositAmount: import("@prisma/client/runtime/index-browser").Decimal | null;
         notes: string | null;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
         status: HouseStatus;
     }>;
     updateHouse(id: string, data: UpdateHouseDTO): Promise<{
@@ -67,6 +71,7 @@ export declare class HouseController {
         waterMeterNumber: string | null;
         defaultDepositAmount: import("@prisma/client/runtime/index-browser").Decimal | null;
         notes: string | null;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
         status: HouseStatus;
     }>;
     changeHouseStatus(id: string, data: UpdateHouseStatusDTO): Promise<{
@@ -80,6 +85,7 @@ export declare class HouseController {
         waterMeterNumber: string | null;
         defaultDepositAmount: import("@prisma/client/runtime/index-browser").Decimal | null;
         notes: string | null;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
         status: HouseStatus;
     }>;
     deleteHouse(id: string): Promise<{
@@ -93,6 +99,7 @@ export declare class HouseController {
         waterMeterNumber: string | null;
         defaultDepositAmount: import("@prisma/client/runtime/index-browser").Decimal | null;
         notes: string | null;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
         status: HouseStatus;
     }>;
     private rethrowOrWrap;

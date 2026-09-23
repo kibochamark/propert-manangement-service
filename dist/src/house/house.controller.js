@@ -17,7 +17,6 @@ const common_1 = require("@nestjs/common");
 const house_service_1 = require("./house.service");
 const house_validator_1 = require("../validators/house.validator");
 const enums_1 = require("../../generated/prisma/enums");
-const auth_guard_1 = require("../guards/auth.guard");
 let HouseController = class HouseController {
     houseService;
     constructor(houseService) {
@@ -25,6 +24,7 @@ let HouseController = class HouseController {
     }
     async createHouse(data) {
         try {
+            console.log(data, "create house");
             const input = { ...data };
             return await this.houseService.createHouse(input);
         }
@@ -149,7 +149,6 @@ __decorate([
 ], HouseController.prototype, "deleteHouse", null);
 exports.HouseController = HouseController = __decorate([
     (0, common_1.Controller)('houses'),
-    (0, common_1.UseGuards)(auth_guard_1.KindeAuthGuard),
     __metadata("design:paramtypes", [house_service_1.HouseService])
 ], HouseController);
 //# sourceMappingURL=house.controller.js.map

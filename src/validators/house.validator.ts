@@ -1,5 +1,5 @@
 import { OmitType, PartialType } from '@nestjs/mapped-types';
-import { IsEnum, IsNumber, IsOptional, IsPositive, IsString } from 'class-validator';
+import { IsEnum, IsJSON, IsNumber, IsOptional, IsPositive, IsString } from 'class-validator';
 import { HouseStatus } from 'generated/prisma/enums';
 
 export class HouseControllerDTO {
@@ -16,6 +16,10 @@ export class HouseControllerDTO {
   @IsString()
   @IsOptional()
   waterMeterNumber?: string;
+
+  @IsJSON()
+  @IsOptional()
+  metadata?:JSON
 
   @IsNumber()
   @IsPositive()

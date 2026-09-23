@@ -49,6 +49,7 @@ export type HouseCountAggregateOutputType = {
     unitNumber: number;
     houseType: number;
     waterMeterNumber: number;
+    metadata: number;
     defaultMonthlyRent: number;
     defaultDepositAmount: number;
     status: number;
@@ -97,6 +98,7 @@ export type HouseCountAggregateInputType = {
     unitNumber?: true;
     houseType?: true;
     waterMeterNumber?: true;
+    metadata?: true;
     defaultMonthlyRent?: true;
     defaultDepositAmount?: true;
     status?: true;
@@ -139,6 +141,7 @@ export type HouseGroupByOutputType = {
     unitNumber: string;
     houseType: string | null;
     waterMeterNumber: string | null;
+    metadata: runtime.JsonValue | null;
     defaultMonthlyRent: runtime.Decimal;
     defaultDepositAmount: runtime.Decimal | null;
     status: $Enums.HouseStatus;
@@ -163,6 +166,7 @@ export type HouseWhereInput = {
     unitNumber?: Prisma.StringFilter<"House"> | string;
     houseType?: Prisma.StringNullableFilter<"House"> | string | null;
     waterMeterNumber?: Prisma.StringNullableFilter<"House"> | string | null;
+    metadata?: Prisma.JsonNullableFilter<"House">;
     defaultMonthlyRent?: Prisma.DecimalFilter<"House"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: Prisma.DecimalNullableFilter<"House"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: Prisma.EnumHouseStatusFilter<"House"> | $Enums.HouseStatus;
@@ -178,6 +182,7 @@ export type HouseOrderByWithRelationInput = {
     unitNumber?: Prisma.SortOrder;
     houseType?: Prisma.SortOrderInput | Prisma.SortOrder;
     waterMeterNumber?: Prisma.SortOrderInput | Prisma.SortOrder;
+    metadata?: Prisma.SortOrderInput | Prisma.SortOrder;
     defaultMonthlyRent?: Prisma.SortOrder;
     defaultDepositAmount?: Prisma.SortOrderInput | Prisma.SortOrder;
     status?: Prisma.SortOrder;
@@ -197,6 +202,7 @@ export type HouseWhereUniqueInput = Prisma.AtLeast<{
     unitNumber?: Prisma.StringFilter<"House"> | string;
     houseType?: Prisma.StringNullableFilter<"House"> | string | null;
     waterMeterNumber?: Prisma.StringNullableFilter<"House"> | string | null;
+    metadata?: Prisma.JsonNullableFilter<"House">;
     defaultMonthlyRent?: Prisma.DecimalFilter<"House"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: Prisma.DecimalNullableFilter<"House"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: Prisma.EnumHouseStatusFilter<"House"> | $Enums.HouseStatus;
@@ -212,6 +218,7 @@ export type HouseOrderByWithAggregationInput = {
     unitNumber?: Prisma.SortOrder;
     houseType?: Prisma.SortOrderInput | Prisma.SortOrder;
     waterMeterNumber?: Prisma.SortOrderInput | Prisma.SortOrder;
+    metadata?: Prisma.SortOrderInput | Prisma.SortOrder;
     defaultMonthlyRent?: Prisma.SortOrder;
     defaultDepositAmount?: Prisma.SortOrderInput | Prisma.SortOrder;
     status?: Prisma.SortOrder;
@@ -233,6 +240,7 @@ export type HouseScalarWhereWithAggregatesInput = {
     unitNumber?: Prisma.StringWithAggregatesFilter<"House"> | string;
     houseType?: Prisma.StringNullableWithAggregatesFilter<"House"> | string | null;
     waterMeterNumber?: Prisma.StringNullableWithAggregatesFilter<"House"> | string | null;
+    metadata?: Prisma.JsonNullableWithAggregatesFilter<"House">;
     defaultMonthlyRent?: Prisma.DecimalWithAggregatesFilter<"House"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: Prisma.DecimalNullableWithAggregatesFilter<"House"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: Prisma.EnumHouseStatusWithAggregatesFilter<"House"> | $Enums.HouseStatus;
@@ -245,6 +253,7 @@ export type HouseCreateInput = {
     unitNumber: string;
     houseType?: string | null;
     waterMeterNumber?: string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     defaultMonthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: $Enums.HouseStatus;
@@ -260,6 +269,7 @@ export type HouseUncheckedCreateInput = {
     unitNumber: string;
     houseType?: string | null;
     waterMeterNumber?: string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     defaultMonthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: $Enums.HouseStatus;
@@ -273,6 +283,7 @@ export type HouseUpdateInput = {
     unitNumber?: Prisma.StringFieldUpdateOperationsInput | string;
     houseType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     waterMeterNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     defaultMonthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: Prisma.EnumHouseStatusFieldUpdateOperationsInput | $Enums.HouseStatus;
@@ -288,6 +299,7 @@ export type HouseUncheckedUpdateInput = {
     unitNumber?: Prisma.StringFieldUpdateOperationsInput | string;
     houseType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     waterMeterNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     defaultMonthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: Prisma.EnumHouseStatusFieldUpdateOperationsInput | $Enums.HouseStatus;
@@ -302,6 +314,7 @@ export type HouseCreateManyInput = {
     unitNumber: string;
     houseType?: string | null;
     waterMeterNumber?: string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     defaultMonthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: $Enums.HouseStatus;
@@ -314,6 +327,7 @@ export type HouseUpdateManyMutationInput = {
     unitNumber?: Prisma.StringFieldUpdateOperationsInput | string;
     houseType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     waterMeterNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     defaultMonthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: Prisma.EnumHouseStatusFieldUpdateOperationsInput | $Enums.HouseStatus;
@@ -327,6 +341,7 @@ export type HouseUncheckedUpdateManyInput = {
     unitNumber?: Prisma.StringFieldUpdateOperationsInput | string;
     houseType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     waterMeterNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     defaultMonthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: Prisma.EnumHouseStatusFieldUpdateOperationsInput | $Enums.HouseStatus;
@@ -352,6 +367,7 @@ export type HouseCountOrderByAggregateInput = {
     unitNumber?: Prisma.SortOrder;
     houseType?: Prisma.SortOrder;
     waterMeterNumber?: Prisma.SortOrder;
+    metadata?: Prisma.SortOrder;
     defaultMonthlyRent?: Prisma.SortOrder;
     defaultDepositAmount?: Prisma.SortOrder;
     status?: Prisma.SortOrder;
@@ -462,6 +478,7 @@ export type HouseCreateWithoutPropertyInput = {
     unitNumber: string;
     houseType?: string | null;
     waterMeterNumber?: string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     defaultMonthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: $Enums.HouseStatus;
@@ -475,6 +492,7 @@ export type HouseUncheckedCreateWithoutPropertyInput = {
     unitNumber: string;
     houseType?: string | null;
     waterMeterNumber?: string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     defaultMonthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: $Enums.HouseStatus;
@@ -513,6 +531,7 @@ export type HouseScalarWhereInput = {
     unitNumber?: Prisma.StringFilter<"House"> | string;
     houseType?: Prisma.StringNullableFilter<"House"> | string | null;
     waterMeterNumber?: Prisma.StringNullableFilter<"House"> | string | null;
+    metadata?: Prisma.JsonNullableFilter<"House">;
     defaultMonthlyRent?: Prisma.DecimalFilter<"House"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: Prisma.DecimalNullableFilter<"House"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: Prisma.EnumHouseStatusFilter<"House"> | $Enums.HouseStatus;
@@ -525,6 +544,7 @@ export type HouseCreateWithoutTenanciesInput = {
     unitNumber: string;
     houseType?: string | null;
     waterMeterNumber?: string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     defaultMonthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: $Enums.HouseStatus;
@@ -539,6 +559,7 @@ export type HouseUncheckedCreateWithoutTenanciesInput = {
     unitNumber: string;
     houseType?: string | null;
     waterMeterNumber?: string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     defaultMonthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: $Enums.HouseStatus;
@@ -564,6 +585,7 @@ export type HouseUpdateWithoutTenanciesInput = {
     unitNumber?: Prisma.StringFieldUpdateOperationsInput | string;
     houseType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     waterMeterNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     defaultMonthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: Prisma.EnumHouseStatusFieldUpdateOperationsInput | $Enums.HouseStatus;
@@ -578,6 +600,7 @@ export type HouseUncheckedUpdateWithoutTenanciesInput = {
     unitNumber?: Prisma.StringFieldUpdateOperationsInput | string;
     houseType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     waterMeterNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     defaultMonthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: Prisma.EnumHouseStatusFieldUpdateOperationsInput | $Enums.HouseStatus;
@@ -590,6 +613,7 @@ export type HouseCreateManyPropertyInput = {
     unitNumber: string;
     houseType?: string | null;
     waterMeterNumber?: string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     defaultMonthlyRent: runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: $Enums.HouseStatus;
@@ -602,6 +626,7 @@ export type HouseUpdateWithoutPropertyInput = {
     unitNumber?: Prisma.StringFieldUpdateOperationsInput | string;
     houseType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     waterMeterNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     defaultMonthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: Prisma.EnumHouseStatusFieldUpdateOperationsInput | $Enums.HouseStatus;
@@ -615,6 +640,7 @@ export type HouseUncheckedUpdateWithoutPropertyInput = {
     unitNumber?: Prisma.StringFieldUpdateOperationsInput | string;
     houseType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     waterMeterNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     defaultMonthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: Prisma.EnumHouseStatusFieldUpdateOperationsInput | $Enums.HouseStatus;
@@ -628,6 +654,7 @@ export type HouseUncheckedUpdateManyWithoutPropertyInput = {
     unitNumber?: Prisma.StringFieldUpdateOperationsInput | string;
     houseType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     waterMeterNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
     defaultMonthlyRent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     defaultDepositAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null;
     status?: Prisma.EnumHouseStatusFieldUpdateOperationsInput | $Enums.HouseStatus;
@@ -653,6 +680,7 @@ export type HouseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     unitNumber?: boolean;
     houseType?: boolean;
     waterMeterNumber?: boolean;
+    metadata?: boolean;
     defaultMonthlyRent?: boolean;
     defaultDepositAmount?: boolean;
     status?: boolean;
@@ -669,6 +697,7 @@ export type HouseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
     unitNumber?: boolean;
     houseType?: boolean;
     waterMeterNumber?: boolean;
+    metadata?: boolean;
     defaultMonthlyRent?: boolean;
     defaultDepositAmount?: boolean;
     status?: boolean;
@@ -683,6 +712,7 @@ export type HouseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
     unitNumber?: boolean;
     houseType?: boolean;
     waterMeterNumber?: boolean;
+    metadata?: boolean;
     defaultMonthlyRent?: boolean;
     defaultDepositAmount?: boolean;
     status?: boolean;
@@ -697,6 +727,7 @@ export type HouseSelectScalar = {
     unitNumber?: boolean;
     houseType?: boolean;
     waterMeterNumber?: boolean;
+    metadata?: boolean;
     defaultMonthlyRent?: boolean;
     defaultDepositAmount?: boolean;
     status?: boolean;
@@ -704,7 +735,7 @@ export type HouseSelectScalar = {
     createdAt?: boolean;
     updatedAt?: boolean;
 };
-export type HouseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "propertyId" | "unitNumber" | "houseType" | "waterMeterNumber" | "defaultMonthlyRent" | "defaultDepositAmount" | "status" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["house"]>;
+export type HouseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "propertyId" | "unitNumber" | "houseType" | "waterMeterNumber" | "metadata" | "defaultMonthlyRent" | "defaultDepositAmount" | "status" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["house"]>;
 export type HouseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>;
     tenancies?: boolean | Prisma.House$tenanciesArgs<ExtArgs>;
@@ -728,6 +759,7 @@ export type $HousePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
         unitNumber: string;
         houseType: string | null;
         waterMeterNumber: string | null;
+        metadata: runtime.JsonValue | null;
         defaultMonthlyRent: runtime.Decimal;
         defaultDepositAmount: runtime.Decimal | null;
         status: $Enums.HouseStatus;
@@ -798,6 +830,7 @@ export interface HouseFieldRefs {
     readonly unitNumber: Prisma.FieldRef<"House", 'String'>;
     readonly houseType: Prisma.FieldRef<"House", 'String'>;
     readonly waterMeterNumber: Prisma.FieldRef<"House", 'String'>;
+    readonly metadata: Prisma.FieldRef<"House", 'Json'>;
     readonly defaultMonthlyRent: Prisma.FieldRef<"House", 'Decimal'>;
     readonly defaultDepositAmount: Prisma.FieldRef<"House", 'Decimal'>;
     readonly status: Prisma.FieldRef<"House", 'HouseStatus'>;
