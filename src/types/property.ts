@@ -16,4 +16,8 @@ export interface CreatePropertyInput {
   description?: string;
   defaultWaterRate?: number;
   currency?: string;
+  // 5.1 — the house rule for how much notice a leaving tenant must give.
+  // Only ever read at move-in, to freeze onto the new Tenancy; changing
+  // it here never rewrites an existing tenant's agreed notice period.
+  defaultNoticePeriodDays?: number;
 }

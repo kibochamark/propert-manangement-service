@@ -1,8 +1,8 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Req, UseGuards, Version } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Patch, Post, Req, UseGuards, Version } from '@nestjs/common';
 import { TenancyService } from './tenancy.service';
 import { BalanceService } from 'src/balance/balance.service';
-import { MoveInDTO } from 'src/validators/tenancy.validator';
-import { MoveInInput } from 'src/types/tenancy';
+import { MoveInDTO, RecordNoticeDTO, VacateDTO } from 'src/validators/tenancy.validator';
+import { MoveInInput, RecordNoticeInput, VacateInput } from 'src/types/tenancy';
 import { KindeAuthGuard } from 'src/guards/auth.guard';
 
 @Controller('tenancies')
@@ -26,12 +26,49 @@ export class TenancyController {
         startDate: new Date(data.startDate),
         expectedEndDate: data.expectedEndDate ? new Date(data.expectedEndDate) : undefined,
         openingWaterReading: data.openingWaterReading,
+        noticePeriodDays: data.noticePeriodDays,
         notes: data.notes,
       };
       return await this.tenancyService.moveIn(input, req.user.id);
     } catch (error:any) {
       console.log(error.message)
       this.rethrowOrWrap(error, 'Failed to move in tenant');
+    }
+  }
+
+  // 5.1 — optional: an emergency move-out can skip this and go straight
+  // to vacate below.
+  @Patch('tenancy/:id/notice')
+  @Version('1')
+  async recordNotice(@Param('id') id: string, @Body() data: RecordNoticeDTO, @Req() req) {
+    try {
+      const input: RecordNoticeInput = {
+        noticeDate: new Date(data.noticeDate),
+        expectedEndDate: new Date(data.expectedEndDate),
+        reason: data.reason,
+      };
+      return await this.tenancyService.recordNotice(id, input, req.user.id);
+    } catch (error) {
+      this.rethrowOrWrap(error, 'Failed to record notice');
+    }
+  }
+
+  // 5.2 — the state half of moving out. Returns the settlement preview
+  // alongside the updated tenancy so the owner sees the numbers
+  // immediately, without a second call.
+  @Patch('tenancy/:id/vacate')
+  @Version('1')
+  async vacate(@Param('id') id: string, @Body() data: VacateDTO, @Req() req) {
+    try {
+      const input: VacateInput = {
+        actualEndDate: new Date(data.actualEndDate),
+        moveOutReason: data.moveOutReason,
+        houseStatusAfter: data.houseStatusAfter as VacateInput['houseStatusAfter'],
+        houseStatusReason: data.houseStatusReason,
+      };
+      return await this.tenancyService.vacate(id, input, req.user.id);
+    } catch (error) {
+      this.rethrowOrWrap(error, 'Failed to vacate tenancy');
     }
   }
 

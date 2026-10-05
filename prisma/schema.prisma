@@ -64,6 +64,12 @@ model Property {
   defaultWaterRate Decimal @default(0) // KSh per unit, used when generating a new water bill
   currency         String  @default("KES")
 
+  // 5.1 — the house rule for how much notice a leaving tenant must give.
+  // Like defaultMonthlyRent on House, this is ONLY the starting figure for
+  // whoever moves in next. An existing tenancy's own noticePeriodDays is
+  // frozen and is never re-read from here.
+  defaultNoticePeriodDays Int @default(30)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -166,6 +172,12 @@ model Tenancy {
   // because past charges already have their own amount saved.
   monthlyRent     Decimal
   depositRequired Decimal // defaults to monthlyRent in the API, but can be set to an agreed figure
+
+  // 5.1 — copied in at move-in and then left alone, exactly like
+  // monthlyRent and depositRequired above. If the owner changes the
+  // property's default next year, this tenant is still judged against the
+  // period they actually agreed to.
+  noticePeriodDays Int @default(30)
 
   startDate           DateTime
   expectedEndDate     DateTime?

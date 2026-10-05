@@ -22,3 +22,23 @@ export interface TenancyBalance {
   total: number;
   isCleared: boolean;
 }
+
+// One deposit-type charge and what actually came in against it.
+export interface DepositHeldLine {
+  chargeId: string;
+  type: ChargeType;
+  charged: number; // what was agreed for this deposit component
+  paid: number; // what actually arrived against it — live allocations only
+  outstanding: number;
+}
+
+// 5.2 — "how much deposit can honestly be refunded." totalHeld is the
+// refund ceiling; it is NOT tenancy.depositRequired. A tenant who only
+// ever paid half their deposit can never be refunded the whole thing.
+export interface DepositHeld {
+  tenancyId: string;
+  totalCharged: number;
+  totalHeld: number;
+  totalNeverPaid: number;
+  lines: DepositHeldLine[];
+}

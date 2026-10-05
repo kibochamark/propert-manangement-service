@@ -29,6 +29,7 @@ export class PropertyController {
                 description: data.description,
                 defaultWaterRate: data.defaultWaterRate,
                 currency: data.currency,
+                defaultNoticePeriodDays: data.defaultNoticePeriodDays,
             };
 
             const property = await this.propertyService.createProperty(input);

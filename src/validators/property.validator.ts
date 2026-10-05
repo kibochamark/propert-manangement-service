@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString } from 'class-validator';
+import { IsEmail, IsInt, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString } from 'class-validator';
 
 export class PropertyControllerDTO {
     @IsString()
@@ -26,5 +26,10 @@ export class PropertyControllerDTO {
     @IsString()
     @IsOptional()
     currency?: string;
+
+    @IsInt()
+    @IsPositive()
+    @IsOptional()
+    defaultNoticePeriodDays?: number;
 
 }

@@ -11,6 +11,7 @@ import { BalanceModule } from './balance/balance.module';
 import { ChargeModule } from './charge/charge.module';
 import { RentModule } from './rent/rent.module';
 import { PaymentModule } from './payment/payment.module';
+import { SettlementModule } from './settlement/settlement.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { PaymentModule } from './payment/payment.module';
     ChargeModule,
     RentModule,
     PaymentModule,
+    SettlementModule,
   ],
   controllers: [],
   providers: [],

@@ -20,6 +20,7 @@ export class PropertyRepository {
         description: input.description,
         defaultWaterRate: input.defaultWaterRate,
         currency: input.currency,
+        defaultNoticePeriodDays: input.defaultNoticePeriodDays,
       },
     });
   }

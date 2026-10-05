@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/prismaservice/prismaservice.service';
-import { Tenancy } from 'src/types/tenancy';
+import { OCCUPYING_STATUSES, Tenancy } from 'src/types/tenancy';
 
 // Included on every read below: the tenant's name/contact alongside each
 // tenancy row, since "who was this" is almost always what's wanted next
@@ -35,9 +35,11 @@ export class TenancyRepository {
     });
   }
 
+  // 5.1 — "active" here means "still occupying", which now covers a
+  // tenant on notice too (they haven't left yet). See OCCUPYING_STATUSES.
   async findActiveByHouse(houseId: string): Promise<Tenancy | null> {
     return this.prismaService.tenancy.findFirst({
-      where: { houseId, status: 'ACTIVE' },
+      where: { houseId, status: { in: OCCUPYING_STATUSES } },
       include: WITH_TENANT,
     });
   }

@@ -3,9 +3,11 @@ import { TenancyService } from './tenancy.service';
 import { TenancyRepository } from './tenancy.repository';
 import { TenancyController } from './tenancy.controller';
 import { BalanceModule } from 'src/balance/balance.module';
+import { HouseModule } from 'src/house/house.module';
+import { SettlementModule } from 'src/settlement/settlement.module';
 
 @Module({
-  imports: [BalanceModule],
+  imports: [BalanceModule, HouseModule, SettlementModule],
   providers: [TenancyService, TenancyRepository],
   controllers: [TenancyController],
   exports: [TenancyService],

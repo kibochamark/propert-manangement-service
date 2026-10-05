@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from 'src/prismaservice/prismaservice.service';
+import { OCCUPYING_STATUSES } from 'src/types/tenancy';
 
 // 3.1 — rent is pre-paid: the tenant is expected to have paid before (or
 // right at the start of) the month it covers. So this job runs ahead of
@@ -55,8 +56,10 @@ export class RentService {
     const periodMonth = new Date(targetMonth.getFullYear(), targetMonth.getMonth(), 1);
     const periodLabel = periodMonth.toISOString().slice(0, 7);
 
+    // 5.1 — a tenant who has given notice still lives here and still owes
+    // this month's rent; only OCCUPYING_STATUSES counts as "still here".
     const activeTenancies = await this.prismaService.tenancy.findMany({
-      where: { status: 'ACTIVE' },
+      where: { status: { in: OCCUPYING_STATUSES } },
       include: { house: { include: { property: true } } },
     });
 

@@ -3,10 +3,14 @@ import { HouseFilter, HouseRepository } from './house.repository';
 import { CreateHouseInput, House, UpdateHouseInput } from 'src/types/house';
 import { HouseStatus } from 'generated/prisma/enums';
 import { Prisma } from 'generated/prisma/client';
+import { PrismaService } from 'src/prismaservice/prismaservice.service';
 
 @Injectable()
 export class HouseService {
-  constructor(private readonly houseRepository: HouseRepository) {}
+  constructor(
+    private readonly houseRepository: HouseRepository,
+    private readonly prismaService: PrismaService,
+  ) {}
 
   async createHouse(input: CreateHouseInput): Promise<House> {
     try {
@@ -60,8 +64,22 @@ export class HouseService {
   // timestamp rather than overwriting them, so nothing already written
   // about the house is lost. This is a lightweight stand-in for a real
   // audit log, which is Sprint 8.
-  async changeStatus(id: string, status: HouseStatus, reason?: string): Promise<House> {
-    const house = await this.getHouseById(id);
+  //
+  // 5.1/5.2 — takes an optional transaction client so notice/vacate can
+  // call this from inside their own $transaction and have the house
+  // update commit (or roll back) atomically with everything else they're
+  // doing. Every existing caller passes nothing and gets identical
+  // behaviour against the normal injected connection.
+  async changeStatus(
+    id: string,
+    status: HouseStatus,
+    reason?: string,
+    client: Prisma.TransactionClient = this.prismaService,
+  ): Promise<House> {
+    const house = await this.houseRepository.findById(id, client);
+    if (!house) {
+      throw new NotFoundException(`House ${id} not found`);
+    }
 
     let notes = house.notes ?? undefined;
     if (reason) {
@@ -69,7 +87,7 @@ export class HouseService {
       notes = house.notes ? `${house.notes}\n${entry}` : entry;
     }
 
-    return this.houseRepository.updateStatus(id, status, notes);
+    return this.houseRepository.updateStatus(id, status, notes, client);
   }
 
   async deleteHouse(id: string): Promise<House> {

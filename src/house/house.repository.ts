@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/prismaservice/prismaservice.service';
 import { HouseStatus } from 'generated/prisma/enums';
+import { Prisma } from 'generated/prisma/client';
 import { CreateHouseInput, House, UpdateHouseInput } from 'src/types/house';
 
 export interface HouseFilter {
@@ -21,9 +22,12 @@ export class HouseRepository {
     return this.prismaService.house.create({ data: input});
   }
 
-  async findById(id: string): Promise<House | null> {
+  async findById(
+    id: string,
+    client: Prisma.TransactionClient = this.prismaService,
+  ): Promise<House | null> {
     this.logger.log(`Finding house with ID: ${id}`);
-    return this.prismaService.house.findUnique({ where: { id },
+    return client.house.findUnique({ where: { id },
     
       include: {
         tenancies: {
@@ -106,9 +110,14 @@ export class HouseRepository {
     return this.prismaService.house.update({ where: { id }, data: input });
   }
 
-  async updateStatus(id: string, status: HouseStatus, notes?: string): Promise<House> {
+  async updateStatus(
+    id: string,
+    status: HouseStatus,
+    notes?: string,
+    client: Prisma.TransactionClient = this.prismaService,
+  ): Promise<House> {
     this.logger.log(`Updating house ${id} status to ${status}`);
-    return this.prismaService.house.update({
+    return client.house.update({
       where: { id },
       data: { status, ...(notes !== undefined ? { notes } : {}) },
     });
