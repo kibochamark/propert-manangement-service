@@ -14,7 +14,7 @@ RUN pnpm config set node-linker hoisted
 
 RUN pnpm install
 
-RUN npx prisma generate
+RUN npx prisma generate && npx prisma db push
 
 # Fix: Explicitly target the current root package for the build script
 RUN pnpm --filter . run build
