@@ -8,12 +8,6 @@ services:
       - "5000:5000"
     env_file:
       - .env
-    environment:
-      - ENV=production
-      - DATABASE_URL=example.com
-      - KINDE_DOMAIN=example.com
-      - RENT_CRON_SCHEDULE=0 0 * * *
-      - RENT_GENERATION_LEAD_DAYS=5
     depends_on:
       jupecom-service:
         condition: service_healthy
