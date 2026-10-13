@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { ConfigService } from 'node_modules/@nestjs/config/dist/config.service';
 import { PrismaService } from 'src/prismaservice/prismaservice.service';
 import { OCCUPYING_STATUSES } from 'src/types/tenancy';
 
@@ -10,16 +11,16 @@ import { OCCUPYING_STATUSES } from 'src/types/tenancy';
 export class RentService {
   private readonly logger = new Logger(RentService.name);
 
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService, private readonly configService: ConfigService) {}
 
   // Runs every midnight in production (RENT_CRON_SCHEDULE="0 0 * * *"), or
   // every 5 seconds in dev/test (the default in .env) so the same code
   // path can be watched run repeatedly without waiting for a real month
   // boundary. Either way it calls the exact same generateRentForMonth()
   // below — there's no separate "test version" of the logic.
-  @Cron(process.env.RENT_CRON_SCHEDULE || CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async handleNightlyRentGeneration(): Promise<void> {
-    const leadDays = Number(process.env.RENT_GENERATION_LEAD_DAYS ?? 5);
+    const leadDays = Number(this.configService.get('RENT_GENERATION_LEAD_DAYS') ?? 5);
     const today = new Date();
 
     // Always ensure THIS month is covered — catches a tenant who moved in
