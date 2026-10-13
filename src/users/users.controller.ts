@@ -43,7 +43,7 @@ export class UsersController {
                 // console.log('Received webhook with token:', token);
 
                 const client = jwksClient({
-                    jwksUri: this.configService.get('KINDE_DOMAIN', 'https://bidmarket.kinde.com/.well-known/jwks.json') as string,
+                    jwksUri: this.configService.get('KINDE_DOMAIN', 'https://bidmarket.kinde.com') as string + '/.well-known/jwks.json',
                 });
 
                 // / Decode the token
