@@ -1,0 +1,39 @@
+
+services:
+  jupecom-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    environment:
+      - ENV=production
+      - DATABASE_URL=example.com
+      - KINDE_DOMAIN=example.com
+      - RENT_CRON_SCHEDULE=0 0 * * *
+      - RENT_GENERATION_LEAD_DAYS=5
+    depends_on:
+      jupecom-service:
+        condition: service_healthy
+
+
+  jupecom-service:
+    image: postgres:17
+    environment:
+      POSTGRES_PASSWORD: jupecom
+      POSTGRES_DB: jupecom
+      POSTGRES_USER: user
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d jupecom"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

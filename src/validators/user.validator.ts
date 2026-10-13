@@ -19,3 +19,4 @@ export class UsersDTO {
     @IsOptional()
     isActive?: boolean;
 }
+

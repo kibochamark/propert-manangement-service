@@ -1,11 +1,17 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, UseGuards, Version } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Param, Patch, Post, Req, Res, UseGuards, Version } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersDTO } from 'src/validators/user.validator';
 import { KindeAuthGuard } from 'src/guards/auth.guard';
-
+import * as bodyParser from 'body-parser';
+import * as jwt from 'jsonwebtoken';
+import jwksClient from 'jwks-rsa';
+import { ConfigService } from '@nestjs/config';
+import * as express from 'express';
 @Controller('users')
 export class UsersController {
-    constructor(private readonly usersService: UsersService) {}
+    private readonly logger = new Logger(UsersController.name); // Replace with a proper logger if needed
+    private jwtBodyParser = bodyParser.text({ type: 'application/jwt' });
+    constructor(private readonly usersService: UsersService, private readonly configService: ConfigService) {}
 
     @Post()
     @Version('1')
@@ -18,6 +24,71 @@ export class UsersController {
         }catch(e){
             throw new HttpException('Failed to create user', HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+
+    /**
+     * Webhook handler for Kinde user.created event
+     * Creates a new account in local database when user signs up in Kinde
+     */
+    @Post('createwebhook')
+    @Version('1')
+    async createAccount(@Req() req: express.Request, @Res() res: express.Response) {
+
+
+        this.jwtBodyParser(req, res, async () => {
+            try {
+                const token = req.body as unknown; // now contains raw JWT string
+
+                // console.log('Received webhook with token:', token);
+
+                const client = jwksClient({
+                    jwksUri: this.configService.get('KINDE_DOMAIN', 'https://bidmarket.kinde.com/.well-known/jwks.json') as string,
+                });
+
+                // / Decode the token
+                const { header } = jwt.decode(token as string, { complete: true }) as any;
+                const { kid } = header;
+
+                // Verify the token
+                const key = await client.getSigningKey(kid);
+                const signingKey = key.getPublicKey();
+                const event = await jwt.verify(token as string, signingKey) as any;
+
+
+                // console.log('Verified webhook event:', event);
+
+                switch (event.type) {
+                    case 'user.created':
+                        this.logger.log('Processing user.created event');
+
+                        if (!event.data?.user) {
+                            this.logger.error('Webhook event missing user data', event);
+                            return res.status(400).json({
+                                error: "Invalid event payload: missing event.data.user"
+                            });
+                        }
+
+                        // map the Kinde user data to your local user model and create a new account in your database
+                        const payload = {
+                            name: `${event.data.user.first_name || ''} ${event.data.user.last_name || ''}`.trim(),
+                            email: event.data.user.email,
+                            kindeId: event.data.user.id,
+                            role : "ADMIN", // default role, adjust as needed
+                            isActive: true, // default active status, adjust as needed
+                        }
+
+                        const result = await this.usersService.createUser(payload);
+                        return res.status(201).json({ success: true, data: result });
+                    default:
+                        this.logger.warn(`Unhandled webhook event type: ${event.type}`);
+                        return res.status(400).json({ error: 'Unhandled event type', type: event.type });
+                }
+            } catch (error: any) {
+                this.logger.error('Failed to process webhook', error);
+                return res.status(500).json({ error: 'Failed to process webhook', details: error?.message });
+            }
+        });
     }
 
 

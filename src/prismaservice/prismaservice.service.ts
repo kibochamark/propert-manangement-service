@@ -8,7 +8,7 @@ import { PrismaNeon } from '@prisma/adapter-neon';
 export class PrismaService extends PrismaClient {
   constructor(config?: ConfigService) {
     const connectionString = config?.get<string>('DATABASE_URL');
-    const adapter = new PrismaNeon({ connectionString: connectionString });
+    const adapter = new PrismaPg({ connectionString: connectionString });
 
     super({ adapter });
   }
