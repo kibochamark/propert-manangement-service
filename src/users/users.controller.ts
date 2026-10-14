@@ -40,10 +40,14 @@ export class UsersController {
             try {
                 const token = req.body as unknown; // now contains raw JWT string
 
-                // console.log('Received webhook with token:', token);
+                console.log('Received webhook with token:', token);
+                console.log('Kinde domain from config:', this.configService.get('KINDE_DOMAIN', 'https://bidmarket.kinde.com'));
+
+                const jswksUri = this.configService.get('KINDE_DOMAIN') + '/.well-known/jwks.json';
+                console.log('JWKS URI:', jswksUri);
 
                 const client = jwksClient({
-                    jwksUri: this.configService.get('KINDE_DOMAIN', 'https://bidmarket.kinde.com') as string + '/.well-known/jwks.json',
+                    jwksUri: jswksUri,
                 });
 
                 // / Decode the token
@@ -56,7 +60,7 @@ export class UsersController {
                 const event = await jwt.verify(token as string, signingKey) as any;
 
 
-                // console.log('Verified webhook event:', event);
+                console.log('Verified webhook event:', event);
 
                 switch (event.type) {
                     case 'user.created':
